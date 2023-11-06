@@ -1,15 +1,35 @@
+<script setup>
+import FounderDetails from './components/FounderDetails.vue'
+import StartupDetails from './components/StartupDetails.vue'
+import FinalResults from './components/FinalResults.vue'
+</script>
+
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <component :is="activeCompoment" @to-calculate="toCalculate" :founderDetails="founderDetails"/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    FounderDetails,
+    StartupDetails,
+    FinalResults
+  },
+  data() {
+    return {
+      activeCompoment: FounderDetails,
+      founderDetails: []
+    }
+  },
+  methods: {
+    toCalculate(founders) {
+      this.activeCompoment = StartupDetails;
+      founders.forEach(founder => {
+        this.founderDetails.push(founder);
+      });
+    }
   }
 }
 </script>
