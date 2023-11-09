@@ -1,269 +1,286 @@
 <template>
-  <div class="form">
-    <!-- Calculation Form -->
 
-    <div class="results w-75 m-auto">
-      <div class="progress-stacked">
-          <div
-            v-for="(name, index) in founderDetails" :key="index"
-            class="progress"
-            role="progressbar"
-            :aria-label="'Segment'+index"
-            :aria-valuenow="equitySplit[index] * 100"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            :style="'width:' + equitySplit[index] * 100 + '%;'"
-          >
-            <div class="progress-bar progress-bar-striped" :class="colors[index]">{{ name.name }} ({{ Math.round(equitySplit[index] * 100) }}%)</div>
-            
-          </div>
+  <div class="details W-100 row">
+
+    <div class="form">
+      <!-- Calculation Form -->
+  
+      <div class="results w-100 p-4 bg-body-secondary rounded-2 m-auto fixed-top">
         
+        <div class="progress-stacked">
+            <div
+              v-for="(name, index) in founderDetails" :key="index"
+              class="progress"
+              role="progressbar"
+              :aria-label="'Segment'+index"
+              :aria-valuenow="equitySplit[index] * 100"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              :style="'width:' + equitySplit[index] * 100 + '%;'"
+              :title="name.name + ' ('+ Math.round(equitySplit[index] * 100) + '%' + ')' "
+              > 
+              <!-- // -->
+              <!-- Standard Color Utility for the Progress Bar, using bootstrap in built contrast text feature by removing 'subtle' from bg color hence it is not supported yet -->
+              <div class="progress-bar" :class="colors[index] + ' text-'+colors[index].replace('-subtle','')"><span class="text-truncate" >{{ name.name }} ({{ Math.round(equitySplit[index] * 100) }}%)</span></div>
+              
+            </div>
+          
+        </div>
       </div>
-    </div>
-
-    <!-- for each founder have the similar form -->
-    <div class="row p-5">
-      <div
-        class="founder-form col text-start"
-        v-for="(founder, count) in founderDetails"
-        :key="count"
-      >
-        <table class="table table-hover">
-          <thead class="table-active">
-            <tr>
-              <th scope="col">{{ founder.name }}</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="">
-              <th scope="row">
-                How much will this founder be engaged in this company before it
-                raises funds?
-              </th>
-              <td class="">
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    :name="'fibf' + founder.name"
-                    id="flexRadioDefault1"
-                    value="1"
-                    v-model="
-                      FoundersInformation.FounderInvolvementBeforeFunding[count]
-                    "
-                  />
-                  <label class="form-check-label" for="flexRadioDefault1">
-                    Exclusive
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    :name="'fibf' + founder.name"
-                    id="flexRadioDefault2"
-                    value="0.8"
-                    v-model="
-                      FoundersInformation.FounderInvolvementBeforeFunding[count]
-                    "
-                  />
-                  <label class="form-check-label" for="flexRadioDefault2">
-                    Full-Time
-                  </label>
-                </div>
-
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    :name="'fibf' + founder.name"
-                    id="flexRadioDefault3"
-                    value="0.5"
-                    v-model="
-                      FoundersInformation.FounderInvolvementBeforeFunding[count]
-                    "
-                  />
-                  <label class="form-check-label" for="flexRadioDefault3">
-                    Part-Time
-                  </label>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">
-                How much will this founder will be involved in product
-                development? ({{
-                  FoundersInformation.FounderInvolvementInProductDevelopment[
-                    count
-                  ]
-                }}%)
-              </th>
-              <td>
-                <input
-                  class="form-range"
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="10"
-                  v-model="
+  
+      <!-- for each founder have the similar form -->
+      <div class="row p-5" style="place-content: space-around;">
+        <div
+          class="founder-form col-auto col-sm col-md-6 col-lg-4 text-start"
+          v-for="(founder, count) in founderDetails"
+          :key="count"
+        >
+          <table class="table table-hover">
+            <thead class="table-active">
+              <tr>
+                <th scope="col">{{ founder.name }}</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="">
+                <th scope="row">
+                  Founder engagment before this company before
+                  raising funds?
+                </th>
+                <td class="">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      :name="'fibf' + founder.name"
+                      id="flexRadioDefault1"
+                      value="1"
+                      v-model="
+                        FoundersInformation.FounderInvolvementBeforeFunding[count]
+                      "
+                    />
+                    <label class="form-check-label" for="flexRadioDefault1">
+                      Exclusive
+                    </label>
+                  </div>
+  
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      :name="'fibf' + founder.name"
+                      id="flexRadioDefault2"
+                      value="0.8"
+                      v-model="
+                        FoundersInformation.FounderInvolvementBeforeFunding[count]
+                      "
+                    />
+                    <label class="form-check-label" for="flexRadioDefault2">
+                      Full-Time
+                    </label>
+                  </div>
+  
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      :name="'fibf' + founder.name"
+                      id="flexRadioDefault3"
+                      value="0.5"
+                      v-model="
+                        FoundersInformation.FounderInvolvementBeforeFunding[count]
+                      "
+                    />
+                    <label class="form-check-label" for="flexRadioDefault3">
+                      Part-Time
+                    </label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  Founder involvement in product
+                  development? ({{
                     FoundersInformation.FounderInvolvementInProductDevelopment[
                       count
                     ]
-                  "
-                  :name="'fipd' + founder.name"
-                  :id="'sliderfipd' + founder.name"
-                />
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Involvement in Sales and Marketing</th>
-              <td colspan="2" class="">
-                <input
-                  class="form-range"
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="10"
-                  v-model="
-                    FoundersInformation.FounderInvolvementInSalesAndMarketing[
-                      count
-                    ]
-                  "
-                  :name="'fism' + founder.name"
-                  :id="'sliderfism' + founder.name"
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <th scope="row">
-                How much will this founder will be involved in Operations?
-              </th>
-              <td colspan="2" class="">
-                <input
-                  class="form-range"
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="10"
-                  v-model="
+                  }}%)
+                </th>
+                <td>
+                  <input
+                    class="form-range"
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="10"
+                    v-model="
+                      FoundersInformation.FounderInvolvementInProductDevelopment[
+                        count
+                      ]
+                    "
+                    :name="'fipd' + founder.name"
+                    :id="'sliderfipd' + founder.name"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Founder involvement in Sales and Marketing ({{ FoundersInformation.FounderInvolvementInSalesAndMarketing[
+                  count
+                ] }}%)</th>
+                <td colspan="2" class="">
+                  <input
+                    class="form-range"
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="10"
+                    v-model="
+                      FoundersInformation.FounderInvolvementInSalesAndMarketing[
+                        count
+                      ]
+                    "
+                    :name="'fism' + founder.name"
+                    :id="'sliderfism' + founder.name"
+                  />
+                </td>
+              </tr>
+  
+              <tr>
+                <th scope="row">
+                  Founder involvement in Operations? ({{
                     FoundersInformation.FounderInvolvementInOperations[count]
-                  "
-                  :name="'fiio' + founder.name"
-                  :id="'sliderfiio' + founder.name"
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <th scope="row">
-                How much will this founder take as a salary (monthly) before
-                funding?
-              </th>
-              <td colspan="2">
-                <input
-                  class="form-control"
-                  type="number"
-                  v-model="
-                    FoundersInformation.FounderSalaryBeforeFunding[count]
-                  "
-                  :name="'fsbf' + founder.name"
-                  :id="'fsbf' + founder.name"
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <th scope="row">
-                Years of experience they bring to the table in her/his primary
-                field of responsibility?
-              </th>
-              <td colspan="2">
-                <input
-                  class="form-control"
-                  type="number"
-                  v-model="FoundersInformation.FounderYearsOfExperience[count]"
-                  :name="'fyoe' + founder.name"
-                  :id="'fyoe' + founder.name"
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <th scope="row">
-                How hard or easy is it replace or replicate this founder's
-                contribution? (0-Very Easy, 5-Very Hard)
-              </th>
-              <td colspan="2">
-                <input
-                  type="range"
-                  class="form-range"
-                  v-model="FoundersInformation.FounderReplicability[count]"
-                  step="1"
-                  min="0"
-                  max="5"
-                  :name="'frep' + founder.name"
-                  :id="'frep' + founder.name"
-                />
-              </td>
-            </tr>
-
-            <tr>
-              <th scope="row">Is Founder CEO?</th>
-              <td colspan="2">
-                <div class="form-check">
+                  }}%)
+                </th>
+                <td colspan="2" class="">
                   <input
-                    type="radio"
-                    class="form-check-input"
-                    v-model="FoundersInformation.FounderIsCEO"
-                    name="fceo"
-                    :value="founder.name"
-                    :id="'fceo'"
+                    class="form-range"
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="10"
+                    v-model="
+                      FoundersInformation.FounderInvolvementInOperations[count]
+                    "
+                    :name="'fiio' + founder.name"
+                    :id="'sliderfiio' + founder.name"
                   />
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <th scope="row">Is it this founders idea execution?</th>
-              <td colspan="2">
-                <div class="form-check">
+                </td>
+              </tr>
+  
+              <tr>
+                <th scope="row">
+                  Founder salary ($monthly) before
+                  funding?
+                </th>
+                <td colspan="2">
                   <input
-                    type="radio"
-                    class="form-check-input"
-                    v-model="FoundersInformation.FounderIsIdeaExecution"
-                    name="fidea"
-                    :value="founder.name"
-                    :id="'fidea'"
+                    class="form-control"
+                    type="number"
+                    v-model="
+                      FoundersInformation.FounderSalaryBeforeFunding[count]
+                    "
+                    :name="'fsbf' + founder.name"
+                    :id="'fsbf' + founder.name"
                   />
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <th scope="row">Founder Initial Capital Contribution</th>
-              <td colspan="2">
-                <input
-                  class="form-control"
-                  type="number"
-                  v-model="
-                    FoundersInformation.FounderInitialCapitalContribution[count]
-                  "
-                  :name="'ficc' + founder.name"
-                  :id="'ficc' + founder.name"
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                </td>
+              </tr>
+  
+              <tr>
+                <th scope="row">
+                  Years of experience in her/his primary
+                  field?
+                </th>
+                <td colspan="2">
+                  <input
+                    class="form-control"
+                    type="number"
+                    v-model="FoundersInformation.FounderYearsOfExperience[count]"
+                    :name="'fyoe' + founder.name"
+                    :id="'fyoe' + founder.name"
+                  />
+                </td>
+              </tr>
+  
+              <tr>
+                <th scope="row">
+                  
+                  Founder Contribution Replicability? ({{ ["Very Easy", "Easy", "Fair", "Hard", "Very Hard"][FoundersInformation.FounderReplicability[count] - 1] }})
+                </th>
+                <td colspan="2">
+                  <input
+                    type="range"
+                    class="form-range"
+                    v-model="FoundersInformation.FounderReplicability[count]"
+                    step="1"
+                    min="1"
+                    max="5"
+                    :name="'frep' + founder.name"
+                    :id="'frep' + founder.name"
+                  />
+                </td>
+              </tr>
+  
+              <tr>
+                <th scope="row">Is Founder CEO?</th>
+                <td colspan="2">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      v-model="FoundersInformation.FounderIsCEO[count]"
+                      name="fceo"
+                      :value="founder.name"
+                      :id="'fceo'"
+                    />
+                  </div>
+                </td>
+              </tr>
+  
+              <tr>
+                <th scope="row">Is it this founders idea execution?</th>
+                <td colspan="2">
+                  <div class="form-check">
+                    <input
+                      type="checkbox"
+                      class="form-check-input"
+                      v-model="FoundersInformation.FounderIsIdeaExecution[count]"
+                      name="fidea"
+                      :value="founder.name"
+                      :id="'fidea'"
+                    />
+                  </div>
+                </td>
+              </tr>
+  
+              <tr>
+                <th scope="row">Founder Initial Capital Contribution</th>
+                <td colspan="2">
+                  <input
+                    class="form-control"
+                    type="number"
+                    v-model="
+                      FoundersInformation.FounderInitialCapitalContribution[count]
+                    "
+                    :name="'ficc' + founder.name"
+                    :id="'ficc' + founder.name"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
+  
     </div>
+  
   </div>
+
+
 </template>
 
 <script>
+
 export default {
   name: "StartupDetails",
   props: {
@@ -280,11 +297,20 @@ export default {
       this.FoundersInformation.FounderInvolvementInOperations.push(0);
       this.FoundersInformation.FounderSalaryBeforeFunding.push(0);
       this.FoundersInformation.FounderYearsOfExperience.push(0);
-      this.FoundersInformation.FounderReplicability.push(0);
+      this.FoundersInformation.FounderReplicability.push(1);
       this.FoundersInformation.FounderIsCEO.push(0);
       this.FoundersInformation.FounderIsIdeaExecution.push(0);
       this.FoundersInformation.FounderInitialCapitalContribution.push(1);
     }
+    //shuffle colors array randomly
+    for (let index = 0; index < this.colors.length; index++) {
+      let randomIndex = Math.floor(Math.random() * this.colors.length);
+      let temp = this.colors[index];
+      this.colors[index] = this.colors[randomIndex];
+      this.colors[randomIndex] = temp;
+    }
+    
+    
   },
   data() {
     return {
@@ -302,14 +328,18 @@ export default {
         
       },
       colors: [
-          "bg-primary",
-          "bg-secondary",
-          "bg-success",
-          "bg-danger",
-          "bg-warning",
-          "bg-info",
-          "bg-light",
-          "bg-dark",
+        "bg-primary",
+        "bg-primary-subtle",
+        "bg-secondary",
+        "bg-secondary-subtle",
+        "bg-success",
+        "bg-success-subtle",
+        "bg-danger",
+        "bg-danger-subtle",
+        "bg-warning",
+        "bg-warning-subtle",
+        "bg-info",
+        "bg-info-subtle"
         ],
     };
   },
@@ -383,10 +413,8 @@ export default {
         let founderCEO = 0;
 
         if (
-          this.FoundersInformation.FounderIsCEO.toString() ===
-          this.founderDetails[index].name.toString()
+          this.FoundersInformation.FounderIsCEO[index]
         ) {
-          
           founderCEO = 1;
         } else {
           
@@ -396,10 +424,8 @@ export default {
         let founderIE = 0;
 
         if (
-          this.FoundersInformation.FounderIsIdeaExecution.toString() ===
-          this.founderDetails[index].name.toString()
+          this.FoundersInformation.FounderIsIdeaExecution[index]
         ) {
-          
           founderIE = 1;
         } else {
           
@@ -438,4 +464,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.progress, .progress-stacked {
+  --bs-progress-height: 3rem;
+}
+
+.progress-bar:hover {
+  border: 1px solid black;
+}
+</style>
