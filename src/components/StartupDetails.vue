@@ -1,6 +1,6 @@
 <template>
 
-  <div class="details W-100 row">
+  <div class="details w-100 row">
 
     <div class="form">
       <!-- Calculation Form -->
@@ -29,17 +29,17 @@
       </div>
   
       <!-- for each founder have the similar form -->
-      <div class="row p-5" style="place-content: space-around;">
-        <div
-          class="founder-form col-auto col-sm col-md-6 col-lg-4 text-start"
-          v-for="(founder, count) in founderDetails"
-          :key="count"
-        >
-          <table class="table table-hover">
+      <div class="row p-5" style="place-content:;">
+        <div class="tables table-responsive-xxl founder-form col-auto text-start" style="" >
+          <table class="table table-hover ">
+          
             <thead class="table-active">
               <tr>
-                <th scope="col">{{ founder.name }}</th>
                 <th scope="col"></th>
+                <th v-for="(founder,count) in founderDetails" :key="count" scope="col">
+                  {{ founder.name }}
+                </th>
+                
               </tr>
             </thead>
             <tbody>
@@ -48,7 +48,7 @@
                   Founder engagment before this company before
                   raising funds?
                 </th>
-                <td class="">
+                <td class="" v-for="(founder, count) in founderDetails" :key="count">
                   <div class="form-check">
                     <input
                       class="form-check-input"
@@ -101,13 +101,9 @@
               <tr>
                 <th scope="row">
                   Founder involvement in product
-                  development? ({{
-                    FoundersInformation.FounderInvolvementInProductDevelopment[
-                      count
-                    ]
-                  }}%)
+                  development?
                 </th>
-                <td>
+                <td v-for="(founder, count) in founderDetails" :key="count">
                   <input
                     class="form-range"
                     type="range"
@@ -125,10 +121,8 @@
                 </td>
               </tr>
               <tr>
-                <th scope="row">Founder involvement in Sales and Marketing ({{ FoundersInformation.FounderInvolvementInSalesAndMarketing[
-                  count
-                ] }}%)</th>
-                <td colspan="2" class="">
+                <th scope="row">Founder involvement in Sales and Marketing</th>
+                <td colspan="" class="" v-for="(founder, count) in founderDetails" :key="count">
                   <input
                     class="form-range"
                     type="range"
@@ -148,11 +142,9 @@
   
               <tr>
                 <th scope="row">
-                  Founder involvement in Operations? ({{
-                    FoundersInformation.FounderInvolvementInOperations[count]
-                  }}%)
+                  Founder involvement in Operations? 
                 </th>
-                <td colspan="2" class="">
+                <td colspan="" class="" v-for="(founder, count) in founderDetails" :key="count">
                   <input
                     class="form-range"
                     type="range"
@@ -173,7 +165,7 @@
                   Founder salary ($monthly) before
                   funding?
                 </th>
-                <td colspan="2">
+                <td colspan="" v-for="(founder, count) in founderDetails" :key="count">
                   <input
                     class="form-control"
                     type="number"
@@ -191,7 +183,7 @@
                   Years of experience in her/his primary
                   field?
                 </th>
-                <td colspan="2">
+                <td colspan="" v-for="(founder, count) in founderDetails" :key="count">
                   <input
                     class="form-control"
                     type="number"
@@ -204,10 +196,9 @@
   
               <tr>
                 <th scope="row">
-                  
-                  Founder Contribution Replicability? ({{ ["Very Easy", "Easy", "Fair", "Hard", "Very Hard"][FoundersInformation.FounderReplicability[count] - 1] }})
+                  Founder Contribution Replicability? 
                 </th>
-                <td colspan="2">
+                <td colspan="" v-for="(founder, count) in founderDetails" :key="count">
                   <input
                     type="range"
                     class="form-range"
@@ -218,12 +209,15 @@
                     :name="'frep' + founder.name"
                     :id="'frep' + founder.name"
                   />
+                  <br>
+                  <span>({{ ["Very Easy", "Easy", "Fair", "Hard", "Very Hard"][FoundersInformation.FounderReplicability[count] - 1] }})</span>
                 </td>
+                
               </tr>
   
               <tr>
                 <th scope="row">Is Founder CEO?</th>
-                <td colspan="2">
+                <td colspan="" v-for="(founder, count) in founderDetails" :key="count">
                   <div class="form-check">
                     <input
                       type="checkbox"
@@ -239,7 +233,7 @@
   
               <tr>
                 <th scope="row">Is it this founders idea execution?</th>
-                <td colspan="2">
+                <td colspan="" v-for="(founder, count) in founderDetails" :key="count">
                   <div class="form-check">
                     <input
                       type="checkbox"
@@ -255,7 +249,7 @@
   
               <tr>
                 <th scope="row">Founder Initial Capital Contribution</th>
-                <td colspan="2">
+                <td colspan="" v-for="(founder, count) in founderDetails" :key="count">
                   <input
                     class="form-control"
                     type="number"
@@ -343,10 +337,13 @@ export default {
         ],
     };
   },
-  computed: {
+  methods: {
     randomColor() {
       return this.colors[Math.floor(Math.random() * this.colors.length)];
     },
+  },
+  computed: {
+    
     equitySplit() {
       //for each founder, calculate the equity split, give/take points based on the answers
       let equitySplits = [];
@@ -436,20 +433,20 @@ export default {
           this.FoundersInformation.FounderInitialCapitalContribution[index] /
           totalInvestment;
 
-        //adding up the points
+        //adding up the points, multiplying by the weightage
         individualEquity +=
-          founderInvolvement +
-          founderIPD +
-          founderISM +
-          founderIO +
-          founderSalary +
-          founderYOE +
-          founderReplicability +
-          founderCEO +
-          founderIE +
-          founderICC;
+          founderInvolvement * (5) +
+          founderIPD * (3) +
+          founderISM * (3) +
+          founderIO * (3)+
+          founderSalary * (4) +
+          founderYOE * (4) +
+          founderReplicability * (5) +
+          founderCEO * (2) +
+          founderIE * (1)+
+          founderICC * (4);
 
-        equitySplits.push(individualEquity);
+          equitySplits.push(individualEquity);
       }
 
       //normalize the equity splits
@@ -471,5 +468,10 @@ export default {
 
 .progress-bar:hover {
   border: 1px solid black;
+}
+
+
+.progress-bar {
+  transition: width 0.5s ease-in-out;
 }
 </style>
