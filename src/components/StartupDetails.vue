@@ -1,10 +1,9 @@
 <template>
-  <div class="details w-100 row">
+  <div class="details w-100 m-auto row">
     <div class="form">
       <!-- Calculation Form -->
-
       <div
-        class="results w-100 p-4 bg-body-secondary rounded-2 m-auto fixed-top"
+        class="results w-100 m-auto rounded-2 shadow-sm p-3 mb-5 bg-body rounded"
       >
         <div class="progress-stacked row g-0 w-100">
           <div
@@ -29,16 +28,7 @@
             <!-- Standard Color Utility for the Progress Bar, using bootstrap in built contrast text feature by removing 'subtle' from bg color hence it is not supported yet -->
             <div
               class="progress-bar"
-              :class="
-                colors[
-                  ((index % founderDetails.length) + founderDetails.length) %
-                    founderDetails.length
-                ] +
-                ' text-' +
-                colors[
-                  ((index % founderDetails.length) + founderDetails.length) %
-                    founderDetails.length
-                ]
+              :style="'background-color: ' +colors[((index % founderDetails.length) + founderDetails.length) % founderDetails.length] +';'
               "
             >
               <span class="text-truncate"
@@ -49,9 +39,21 @@
             </div>
           </div>
         </div>
-        <div>
-          <canvas id="myChart"></canvas>
-        </div>
+
+<button class="btn btn-light text-end m-2 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">View/Share Results</button>
+
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Equity Split</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div style="">
+      <Pie :data="chartData" :options="chartOptions" />
+    </div>
+  </div>
+</div>
+        
       </div>
 
       <!-- for each founder have the similar form -->
@@ -339,11 +341,15 @@
         </div>
       </div>
     </div>
+   
   </div>
 </template>
 
 <script>
-import Chart from "chart.js/auto";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Pie } from 'vue-chartjs'
+ChartJS.register(ArcElement, Tooltip, Legend)
+
 
 export default {
   name: "StartupDetails",
@@ -352,6 +358,9 @@ export default {
       type: Array,
       required: true,
     },
+  },
+  components: {
+    Pie
   },
   mounted() {
     for (let index = 0; index < this.founderDetails.length; index++) {
@@ -366,16 +375,7 @@ export default {
       this.FoundersInformation.FounderIsIdeaExecution.push(0);
       this.FoundersInformation.FounderInitialCapitalContribution.push(1);
     }
-    //shuffle colors array randomly
-    for (let index = 0; index < this.colors.length; index++) {
-      let randomIndex = Math.floor(Math.random() * this.colors.length);
-      let temp = this.colors[index];
-      this.colors[index] = this.colors[randomIndex];
-      this.colors[randomIndex] = temp;
-    }
-
-    const ctx = document.getElementById("myChart");
-    new Chart(ctx, this.pieData);
+   
   },
   data() {
     return {
@@ -390,44 +390,38 @@ export default {
         FounderIsCEO: [],
         FounderIsIdeaExecution: [],
         FounderInitialCapitalContribution: [],
-
-        pieData: {
-          type: "bar",
-          data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+      },
+      colors: [
+        "#0d6efd",
+        "#6c757d",
+        "#198754",
+        "#dc3545",
+        "#ffc107",
+        "#0dcaf0",
+      ],
+      
+      chartOptions:{responsive: true}
+    };
+  },
+  methods:{
+    updateChartData(){
+      this.chartData.datasets[0].data = [...this.equitySplit.map((value)=>value*100)];
+    }
+  },
+  computed: {
+    chartData(){
+         let PieData = {labels: [...this.founderDetails.map((founder) => founder.name)],
             datasets: [
               {
-                label: "# of Votes",
-                data: [12, 19, 3, 5, 2, 3],
+                label: "% of Equity",
+                backgroundColor:[...this.colors],
+                data:[...this.equitySplit.map((value)=>value*100)],
                 borderWidth: 1,
               },
             ],
-          },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
-            },
-          },
-        },
-      },
-      colors: [
-        "bg-primary",
-        "bg-secondary",
-        "bg-success",
-        "bg-danger",
-        "bg-warning",
-        "bg-info",
-      ],
-    };
-  },
-  methods: {
-    randomColor() {
-      return this.colors[Math.floor(Math.random() * this.colors.length)];
+         }
+        return PieData; 
     },
-  },
-  computed: {
     equitySplit() {
       //for each founder, calculate the equity split, give/take points based on the answers
       let equitySplits = [];
@@ -532,10 +526,9 @@ export default {
       for (let index = 0; index < equitySplits.length; index++) {
         equitySplits[index] = equitySplits[index] / totalEquity;
       }
-
       return equitySplits;
-    },
-  },
+    }
+  }
 };
 </script>
 
