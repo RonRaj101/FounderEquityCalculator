@@ -1,6 +1,11 @@
 <template>
-  <div class="form w-100 " >
-    <h1 class="jumbotron display-6">Add Founder Names</h1>
+  <nav class="navbar bg-body-tertiary m-auto">
+    <div class="container">
+      <span class="navbar-brand mb-0 h1">Add Founder Names</span>
+    </div>
+  </nav>
+  <div class="form w-100">
+  
     <form @submit.prevent="submitForm" class="w-75 m-auto p-5" >
 
       <div class="form-floating"  v-for="(founder, index) in founders"

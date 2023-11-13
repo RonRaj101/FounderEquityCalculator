@@ -1,61 +1,16 @@
 <template>
-  <div class="details w-100 m-auto row">
-    <div class="form">
-      <!-- Calculation Form -->
-      <div
-        class="results w-100 m-auto rounded-2 shadow-sm p-3 mb-5 bg-body rounded"
-      >
-        <div class="progress-stacked row g-0 w-100">
-          <div
-            v-for="(name, index) in founderDetails"
-            :key="index"
-            class="progress"
-            role="progressbar"
-            :aria-label="'Segment' + index"
-            :aria-valuenow="equitySplit[index] * 100"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            :style="'width:' + equitySplit[index] * 100 + '%;'"
-            :title="
-              name.name +
-              ' (' +
-              Math.round(equitySplit[index] * 100) +
-              '%' +
-              ')'
-            "
-          >
-            <!-- // -->
-            <!-- Standard Color Utility for the Progress Bar, using bootstrap in built contrast text feature by removing 'subtle' from bg color hence it is not supported yet -->
-            <div
-              class="progress-bar"
-              :style="'background-color: ' +colors[((index % founderDetails.length) + founderDetails.length) % founderDetails.length] +';'
-              "
-            >
-              <span class="text-truncate"
-                >{{ name.name }} ({{
-                  Math.round(equitySplit[index] * 100)
-                }}%)</span
-              >
-            </div>
-          </div>
-        </div>
 
-<button class="btn btn-light text-end m-2 border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">View/Share Results</button>
-
-<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasRightLabel">Equity Split</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div style="">
-      <Pie :data="chartData" :options="chartOptions" />
+  <nav class="navbar bg-body-tertiary m-auto">
+    <div class="container">
+      <span class="navbar-brand mb-0 h1">Founder Equity Details</span>
     </div>
-  </div>
-</div>
-        
-      </div>
+  </nav>
 
+  <div class="details w-100 m-auto row">
+    
+    <div class="form p-0 m-0 col-lg-8 col-md-12">
+      <!-- Calculation Form -->
+    
       <!-- for each founder have the similar form -->
       <div class="row p-5" style="place-content: ">
         <div
@@ -84,6 +39,7 @@
                   class=""
                   v-for="(founder, count) in founderDetails"
                   :key="count"
+                  colspan=""
                 >
                   <div class="form-check">
                     <input
@@ -159,7 +115,7 @@
                 </td>
               </tr>
               <tr>
-                <th scope="row">Founder involvement in Sales and Marketing</th>
+                <th scope="row">Founder involvement in Sales and Marketing?</th>
                 <td
                   colspan=""
                   class=""
@@ -341,7 +297,61 @@
         </div>
       </div>
     </div>
-   
+
+
+
+    <div class="card p-0 mt-3 border-0 col-lg-4 col-md-12 " style="">
+      <div class="card-body text-success">
+        <h5 class="card-title">
+          <div
+          class="results m-auto rounded-2 p-3 mb-5 rounded"
+        >
+          <div class="progress-stacked row g-0 w-100">
+            <div
+              v-for="(name, index) in founderDetails"
+              :key="index"
+              class="progress"
+              role="progressbar"
+              :aria-label="'Segment' + index"
+              :aria-valuenow="equitySplit[index] * 100"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              :style="'width:' + equitySplit[index] * 100 + '%;'"
+              :title="
+                name.name +
+                ' (' +
+                Math.round(equitySplit[index] * 100) +
+                '%' +
+                ')'
+              "
+            >
+              <!-- // -->
+              <!-- Standard Color Utility for the Progress Bar, using bootstrap in built contrast text feature by removing 'subtle' from bg color hence it is not supported yet -->
+              <div
+                class="progress-bar"
+                :style="'background-color: ' +colors[((index % founderDetails.length) + founderDetails.length) % founderDetails.length] +';'
+                "
+              >
+                <span class="text-truncate"
+                  >{{ name.name }} ({{
+                    Math.round(equitySplit[index] * 100)
+                  }}%)</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        </h5>
+        <p class="card-text p-0 m-0">
+          <Pie class="m-auto" :data="chartData" :options="chartOptions" />
+          <button type="button" class="btn btn-outline-dark btn-md mt-3">Share Results</button>
+        </p>
+      </div>
+      <div class="card-footer bg-transparent border-light">
+        
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -400,7 +410,7 @@ export default {
         "#0dcaf0",
       ],
       
-      chartOptions:{responsive: true}
+      chartOptions:{maintainAspectRatio: true, responsive:false}
     };
   },
   methods:{
@@ -535,7 +545,7 @@ export default {
 <style scoped>
 .progress,
 .progress-stacked {
-  --bs-progress-height: 3rem;
+  --bs-progress-height: 2rem;
 }
 
 .progress-bar:hover {
