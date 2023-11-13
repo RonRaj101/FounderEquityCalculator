@@ -6,13 +6,13 @@
   </nav>
   <div class="form w-100">
   
-    <form @submit.prevent="submitForm" class="w-75 m-auto p-5" >
+    <form @submit.prevent="submitForm" class="w-50 m-auto p-5" >
 
       <div class="form-floating"  v-for="(founder, index) in founders"
       :key="index">
         <input
         type="text"
-        class="form-control rounded-top-1"
+        class="form-control rounded-bottom-0"
         :id="'founder' + index"
         v-model="founder.name"
         :required="index < 2"

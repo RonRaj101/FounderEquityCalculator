@@ -17,7 +17,7 @@
           class="tables table-responsive-xxl founder-form col-auto text-start"
           style=""
         >
-          <table class="table table-hover">
+          <table class="table table-borderless table-striped">
             <thead class="table-active">
               <tr>
                 <th scope="col"></th>
@@ -112,6 +112,7 @@
                     :name="'fipd' + founder.name"
                     :id="'sliderfipd' + founder.name"
                   />
+                  ({{FoundersInformation.FounderInvolvementInProductDevelopment[count]}}%)
                 </td>
               </tr>
               <tr>
@@ -136,6 +137,8 @@
                     :name="'fism' + founder.name"
                     :id="'sliderfism' + founder.name"
                   />
+
+                  ({{FoundersInformation.FounderInvolvementInSalesAndMarketing[count]}}%)
                 </td>
               </tr>
 
@@ -159,7 +162,10 @@
                     :name="'fiio' + founder.name"
                     :id="'sliderfiio' + founder.name"
                   />
+                  ({{FoundersInformation.FounderInvolvementInOperations[count]}}%)
                 </td>
+
+               
               </tr>
 
               <tr>
@@ -179,6 +185,8 @@
                     :id="'fsbf' + founder.name"
                   />
                 </td>
+
+                
               </tr>
 
               <tr>
@@ -545,7 +553,7 @@ export default {
 <style scoped>
 .progress,
 .progress-stacked {
-  --bs-progress-height: 2rem;
+  --bs-progress-height: 1.5rem;
 }
 
 .progress-bar:hover {
