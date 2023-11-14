@@ -358,7 +358,7 @@
               <form action="" @submit.prevent="sendEmailJS">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" :disabled="sendEmail" required>
+                <input type="email" name="email_to" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" :disabled="sendEmail" required>
               </div>
               <button class="btn btn-primary" type="submit" :disabled="sendEmail">
                 <span v-show="sendEmail" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
@@ -379,6 +379,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Pie } from 'vue-chartjs'
 ChartJS.register(ArcElement, Tooltip, Legend)
 
+import emailjs from 'emailjs-com';
 
 export default {
   name: "StartupDetails",
@@ -438,8 +439,26 @@ export default {
     updateChartData(){
       this.chartData.datasets[0].data = [...this.equitySplit.map((value)=>value*100)];
     },
-    sendEmailJS(){
+    sendEmailJS(e){
       this.sendEmail = true;
+      let emailMessage = this.chartData.datasets[0].data.map((value, index) => {
+        return `${this.founderDetails[index].name} (${value}%)`
+      }).join('\n');
+      try {
+        emailjs.sendForm('YOUR_SERVICE_ID', 'template_2jpbi5q', e.target,
+        'YOUR_USER_ID', {
+          email: this.email,
+          message: emailMessage
+        })
+
+      } catch(error) {
+          console.log({error})
+      }
+      // Reset form field
+      this.name = ''
+      this.email = ''
+      this.message = ''
+      this.sendEmail = false;
     }
   },
   computed: {
