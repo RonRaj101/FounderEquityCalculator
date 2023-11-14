@@ -309,7 +309,7 @@
 
 
     <div class="card p-0 mt-3 border-0 col-lg-4 col-md-12 " style="">
-      <div class="card-body text-success">
+      <div class="card-body text-dark">
         <h5 class="card-title">
           <div
           class="results m-auto rounded-2 p-3 mb-5 rounded"
@@ -350,13 +350,24 @@
           </div>
         </div>
         </h5>
-        <p class="card-text p-0 m-0">
+        <span class="card-text p-0 m-0">
           <Pie class="m-auto" :data="chartData" :options="chartOptions" />
-          <button type="button" class="btn btn-outline-dark btn-md mt-3">Share Results</button>
-        </p>
-      </div>
-      <div class="card-footer bg-transparent border-light">
-        
+          <button type="button" class="btn btn-outline-dark btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Share Results</button>
+          <div class="collapse m-3" id="collapseExample">
+            <div class="card card-body">
+              <form action="" @submit.prevent="sendEmailJS">
+              <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" :disabled="sendEmail" required>
+              </div>
+              <button class="btn btn-primary" type="submit" :disabled="sendEmail">
+                <span v-show="sendEmail" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                Send
+              </button>
+            </form>
+            </div>
+          </div>
+        </span>
       </div>
     </div>
 
@@ -418,12 +429,17 @@ export default {
         "#0dcaf0",
       ],
       
-      chartOptions:{maintainAspectRatio: true, responsive:false}
+      chartOptions:{maintainAspectRatio: true, responsive:false},
+
+      sendEmail: false,
     };
   },
   methods:{
     updateChartData(){
       this.chartData.datasets[0].data = [...this.equitySplit.map((value)=>value*100)];
+    },
+    sendEmailJS(){
+      this.sendEmail = true;
     }
   },
   computed: {
