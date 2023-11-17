@@ -471,8 +471,9 @@ export default {
   },
   computed: {
     emailMessage(){
-      //format an email message with the founder names and their associated equity split with all factors
-      let message = 'Detailed Report: <br><br>';
+      //detailed report for all founders
+
+      let message = `Equity Split Report: <br><hr>`;
       for (let i = 0; i < this.founderDetails.length; i++) {
        
         message += `<b>${this.founderDetails[i].name}</b>: <b>${this.equitySplit[i] * 100}%</b><br>`;
