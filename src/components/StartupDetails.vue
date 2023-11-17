@@ -358,14 +358,18 @@
               <form action="" @submit.prevent="sendEmailJS">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" :disabled="sendEmail" required>
+                <input type="email" v-model="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" :disabled="sendEmail" required>
               </div>
               <input type="hidden" :value="emailMessage" name="message">
               <button class="btn btn-primary" type="submit" :disabled="sendEmail">
                 <span v-show="sendEmail" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                 Send
               </button>
-              <p class="text-center text-dark mt-3" id="status"></p>
+
+              <div class="alert alert-light mt-3" role="alert" id="status">
+                
+              </div>
+              
             </form>
             </div>
           </div>
@@ -433,9 +437,9 @@ export default {
       ],
       
       chartOptions:{maintainAspectRatio: true, responsive:false},
-
+      email: '',
       sendEmail: false,
-      message: 'Equity Split Results: \n\n' + this.founderDetails.toString(),
+      message: 'Equity Split Results: <br><br>' + this.founderDetails.toString(),
     };
   },
   methods:{
@@ -468,19 +472,53 @@ export default {
   computed: {
     emailMessage(){
       //format an email message with the founder names and their associated equity split with all factors
-      let message = 'Equity Split Results: \n\n';
+      let message = 'Detailed Report: <br><br>';
       for (let i = 0; i < this.founderDetails.length; i++) {
-        message += `${this.founderDetails[i].name}: ${this.equitySplit[i] * 100}%\n`;
-        message += `Founder Involvement Before Funding: ${this.FoundersInformation.FounderInvolvementBeforeFunding[i]}\n`;
-        message += `Founder Involvement In Product Development: ${this.FoundersInformation.FounderInvolvementInProductDevelopment[i]}\n`;
-        message += `Founder Involvement In Sales And Marketing: ${this.FoundersInformation.FounderInvolvementInSalesAndMarketing[i]}\n`;
-        message += `Founder Involvement In Operations: ${this.FoundersInformation.FounderInvolvementInOperations[i]}\n`;
-        message += `Founder Salary Before Funding: ${this.FoundersInformation.FounderSalaryBeforeFunding[i]}\n`;
-        message += `Founder Years Of Experience: ${this.FoundersInformation.FounderYearsOfExperience[i]}\n`;
-        message += `Founder Replicability: ${this.FoundersInformation.FounderReplicability[i]}\n`;
-        message += `Founder Is CEO: ${this.FoundersInformation.FounderIsCEO[i]}\n`;
-        message += `Founder's Idea for Execution: ${this.FoundersInformation.FounderIsIdeaExecution[i]}\n`;
-        message += `Founder Initial Capital Contribution: ${this.FoundersInformation.FounderInitialCapitalContribution[i]}\n\n`;
+       
+        message += `<b>${this.founderDetails[i].name}</b>: <b>${this.equitySplit[i] * 100}%</b><br>`;
+
+        if(this.FoundersInformation.FounderInvolvementBeforeFunding[i] == 0)
+          message += `Founder Involvement Before Funding: None<br>`;
+        else if(this.FoundersInformation.FounderInvolvementBeforeFunding[i] == 0.5)
+          message += `Founder Involvement Before Funding: Part-Time<br>`;
+        else if(this.FoundersInformation.FounderInvolvementBeforeFunding[i] == 0.8)
+          message += `Founder Involvement Before Funding: Full-Time<br>`;
+        else if(this.FoundersInformation.FounderInvolvementBeforeFunding[i] == 1)
+          message += `Founder Involvement Before Funding: Exclusive<br>`;
+        else
+          message += `Founder Involvement Before Funding: ${ this.FoundersInformation.FounderInvolvementBeforeFunding[i] }<br>`;
+
+        message += `Founder Involvement In Product Development: ${this.FoundersInformation.FounderInvolvementInProductDevelopment[i] * 100}% <br>`;
+        message += `Founder Involvement In Sales And Marketing: ${this.FoundersInformation.FounderInvolvementInSalesAndMarketing[i] * 100}% <br>`;
+        message += `Founder Involvement In Operations: ${this.FoundersInformation.FounderInvolvementInOperations[i] * 100}% <br>`;
+        message += `Founder Salary Before Funding: $${this.FoundersInformation.FounderSalaryBeforeFunding[i]} per month<br>`;
+        message += `Founder Years Of Experience: ${this.FoundersInformation.FounderYearsOfExperience[i]}<br>`;
+        if(this.FoundersInformation.FounderReplicability[i] == 1){
+          message += `Founder Replicability: Very Easy<br>`;
+        } else if(this.FoundersInformation.FounderReplicability[i] == 2){
+          message += `Founder Replicability: Easy<br>`;
+        } else if(this.FoundersInformation.FounderReplicability[i] == 3){
+          message += `Founder Replicability: Fair<br>`;
+        } else if(this.FoundersInformation.FounderReplicability[i] == 4){
+          message += `Founder Replicability: Hard<br>`;
+        } else if(this.FoundersInformation.FounderReplicability[i] == 5){
+          message += `Founder Replicability: Very Hard<br>`;
+        } else {
+          message += `Founder Replicability: ${this.FoundersInformation.FounderReplicability[i]}<br>`;
+        }
+
+        if(this.FoundersInformation.FounderIsCEO[i])
+          message += `Founder Is CEO: Yes<br>`
+        else
+          message += `Founder Is CEO: No<br>`
+
+        if(this.FoundersInformation.FounderIsIdeaExecution[i])
+          message += `Founder's Idea for Execution: Yes<br>`
+        else
+          message += `Founder's Idea for Execution: No<br>`
+        message += `Founder Initial Capital Contribution: $${this.FoundersInformation.FounderInitialCapitalContribution[i]}<br><br>`;
+
+        message += `----------------------------------------<br><br>`;
       }
       return message;
     },
