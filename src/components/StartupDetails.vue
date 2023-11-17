@@ -358,12 +358,14 @@
               <form action="" @submit.prevent="sendEmailJS">
               <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                <input type="email" name="email_to" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" :disabled="sendEmail" required>
+                <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" :disabled="sendEmail" required>
               </div>
+              <input type="hidden" :value="emailMessage" name="message">
               <button class="btn btn-primary" type="submit" :disabled="sendEmail">
                 <span v-show="sendEmail" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                 Send
               </button>
+              <p class="text-center text-dark mt-3" id="status"></p>
             </form>
             </div>
           </div>
@@ -433,6 +435,7 @@ export default {
       chartOptions:{maintainAspectRatio: true, responsive:false},
 
       sendEmail: false,
+      message: 'Equity Split Results: \n\n' + this.founderDetails.toString(),
     };
   },
   methods:{
@@ -441,27 +444,46 @@ export default {
     },
     sendEmailJS(e){
       this.sendEmail = true;
-      let emailMessage = this.chartData.datasets[0].data.map((value, index) => {
-        return `${this.founderDetails[index].name} (${value}%)`
-      }).join('\n');
       try {
-        emailjs.sendForm('YOUR_SERVICE_ID', 'template_2jpbi5q', e.target,
-        'YOUR_USER_ID', {
-          email: this.email,
-          message: emailMessage
-        })
-
+          emailjs.sendForm('service_5jfox0x', 'template_2jpbi5q' , e.target ,'dhB2CwPRXVzsCCBId', {
+            email: this.email,
+            message: this.message,
+          }).then((result) => {
+            console.log(result.text);
+            document.getElementById('status').innerHTML = 'Email Sent Successfully';
+        }, (error) => {
+            console.log(error.text);
+            document.getElementById('status').innerHTML = 'Error Sending Email';
+        });
       } catch(error) {
+        document.getElementById('status').innerHTML = 'Error Sending Email';
           console.log({error})
       }
       // Reset form field
-      this.name = ''
       this.email = ''
       this.message = ''
       this.sendEmail = false;
     }
   },
   computed: {
+    emailMessage(){
+      //format an email message with the founder names and their associated equity split with all factors
+      let message = 'Equity Split Results: \n\n';
+      for (let i = 0; i < this.founderDetails.length; i++) {
+        message += `${this.founderDetails[i].name}: ${this.equitySplit[i] * 100}%\n`;
+        message += `Founder Involvement Before Funding: ${this.FoundersInformation.FounderInvolvementBeforeFunding[i]}\n`;
+        message += `Founder Involvement In Product Development: ${this.FoundersInformation.FounderInvolvementInProductDevelopment[i]}\n`;
+        message += `Founder Involvement In Sales And Marketing: ${this.FoundersInformation.FounderInvolvementInSalesAndMarketing[i]}\n`;
+        message += `Founder Involvement In Operations: ${this.FoundersInformation.FounderInvolvementInOperations[i]}\n`;
+        message += `Founder Salary Before Funding: ${this.FoundersInformation.FounderSalaryBeforeFunding[i]}\n`;
+        message += `Founder Years Of Experience: ${this.FoundersInformation.FounderYearsOfExperience[i]}\n`;
+        message += `Founder Replicability: ${this.FoundersInformation.FounderReplicability[i]}\n`;
+        message += `Founder Is CEO: ${this.FoundersInformation.FounderIsCEO[i]}\n`;
+        message += `Founder's Idea for Execution: ${this.FoundersInformation.FounderIsIdeaExecution[i]}\n`;
+        message += `Founder Initial Capital Contribution: ${this.FoundersInformation.FounderInitialCapitalContribution[i]}\n\n`;
+      }
+      return message;
+    },
     chartData(){
          let PieData = {labels: [...this.founderDetails.map((founder) => founder.name)],
             datasets: [
