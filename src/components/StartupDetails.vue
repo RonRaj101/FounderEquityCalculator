@@ -2,7 +2,7 @@
 
   <nav class="navbar bg-body-tertiary m-auto">
     <div class="container">
-      <span class="navbar-brand mb-0 h1">Founder Equity Details</span>
+      <p class="navbar-brand mb-0 h1 text-start">Founder Equity Details</p>
     </div>
   </nav>
 
@@ -12,7 +12,7 @@
       <!-- Calculation Form -->
     
       <!-- for each founder have the similar form -->
-      <div class="row p-5" style="place-content: ">
+      <div class="row pt-5 px-0" style="place-content: ">
         <div
           class="tables table-responsive-xxl founder-form col-auto text-start"
           style=""
@@ -350,8 +350,11 @@
           </div>
         </div>
         </h5>
-        <span class="card-text p-0 m-0">
-          <Pie class="m-auto" :data="chartData" :options="chartOptions" />
+        <div class="card-text p-0 m-0">
+
+          <Pie class="m-auto p-0" :data="chartData" :options="chartOptions" />
+
+
           <button type="button" class="btn btn-outline-dark btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Share Results</button>
           <div class="collapse m-3" id="collapseExample">
             <div class="card card-body">
@@ -373,7 +376,7 @@
             </form>
             </div>
           </div>
-        </span>
+        </div>
       </div>
     </div>
 
@@ -436,7 +439,7 @@ export default {
         "#0dcaf0",
       ],
       
-      chartOptions:{maintainAspectRatio: true, responsive:false},
+      chartOptions:{maintainAspectRatio: true, aspectRatio:0.9, responsive:false},
       email: '',
       sendEmail: false,
       message: 'Equity Split Results: <br><br>' + this.founderDetails.toString(),
@@ -647,6 +650,13 @@ export default {
 </script>
 
 <style scoped>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+*{
+  font: 1em 'Poppins', sans-serif;
+}
+
 .progress,
 .progress-stacked {
   --bs-progress-height: 1.5rem;

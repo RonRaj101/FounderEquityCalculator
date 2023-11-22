@@ -6,7 +6,7 @@
   </nav>
   <div class="form w-100">
   
-    <form @submit.prevent="submitForm" class="w-50 m-auto p-5" >
+    <form @submit.prevent="submitForm" class="w-75 m-auto p-5" >
 
       <div class="form-floating"  v-for="(founder, index) in founders"
       :key="index">
@@ -49,4 +49,10 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+*{
+  font: 1em 'Poppins', sans-serif;
+}
+</style>
