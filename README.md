@@ -1,4 +1,4 @@
-# equity-calculator
+# Founder Equity Split Calculator
 
 ## Project setup
 ```
