@@ -5,23 +5,34 @@
     </div>
   </nav>
   <div class="form w-100">
-  
-    <form @submit.prevent="submitForm" class="w-75 m-auto p-5" >
-
-      <div class="form-floating"  v-for="(founder, index) in founders"
-      :key="index">
+    <form @submit.prevent="submitForm" class="w-75 m-auto p-5">
+      <div
+        class="form-floating"
+        v-for="(founder, index) in founders"
+        :key="index"
+      >
         <input
-        type="text"
-        class="form-control rounded-bottom-0"
-        :id="'founder' + index"
-        v-model="founder.name"
-        :required="index < 2"
-        placeholder="Founder Name"
-      />
-      <label :for="'founder' + index">Founder {{ index + 1 }}</label>
+          type="text"
+          class="form-control rounded-bottom-0"
+          :id="'founder' + index"
+          v-model="founder.name"
+          :required="index < 2"
+          placeholder="Founder Name"
+        />
+        <label :for="'founder' + index">Founder {{ index + 1 }}</label>
       </div>
-      <p class="text-start my-2 m-1"><a href="#" class="link-body-emphasis link-offset-2 link-underline-opacity-25" @click="addFounder">Add Founder <i class="bi bi-plus"></i></a></p>
-      <button class="btn btn-outline-dark btn-block col-12" type="submit">Submit</button>
+      <p class="text-start my-2 m-1">
+        <a
+          href="#"
+          class="link-body-emphasis link-offset-2 link-underline-opacity-25"
+          @click="addFounder"
+          v-show="founders.length < 4"
+          >Add Founder <i class="bi bi-plus"></i
+        ></a>
+      </p>
+      <button class="btn btn-outline-dark btn-block col-12" type="submit">
+        Submit
+      </button>
     </form>
   </div>
 </template>
@@ -30,6 +41,12 @@
 export default {
   emits: ["to-calculate"],
   name: "FounderDetails",
+  props: {
+    founderDetails: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       founders: [{ name: "" }, { name: "" }],
@@ -42,17 +59,13 @@ export default {
         this.founders.filter((founder) => founder.name !== "")
       );
     },
-    addFounder(){
-      this.founders.push({name:""});
-    }
+    addFounder() {
+      this.founders.push({ name: "" });
+    },
   },
 };
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
-*{
-  font: 1em 'Poppins', sans-serif;
-}
 </style>

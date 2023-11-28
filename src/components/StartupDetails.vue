@@ -6,8 +6,8 @@
     </div>
   </nav>
 
+
   <div class="details w-100 m-auto row">
-    
     <div class="form p-0 m-0 col-lg-8 col-md-12">
       <!-- Calculation Form -->
     
@@ -168,7 +168,7 @@
                
               </tr>
 
-              <tr>
+              <!-- <tr>
                 <th scope="row">Founder salary ($monthly) before funding?</th>
                 <td
                   colspan=""
@@ -187,7 +187,7 @@
                 </td>
 
                 
-              </tr>
+              </tr> -->
 
               <tr>
                 <th scope="row">
@@ -238,7 +238,7 @@
                 </td>
               </tr>
 
-              <tr>
+              <!-- <tr>
                 <th scope="row">Is Founder CEO?</th>
                 <td
                   colspan=""
@@ -256,9 +256,9 @@
                     />
                   </div>
                 </td>
-              </tr>
+              </tr> -->
 
-              <tr>
+              <!-- <tr>
                 <th scope="row">Is it this founders idea execution?</th>
                 <td
                   colspan=""
@@ -278,7 +278,7 @@
                     />
                   </div>
                 </td>
-              </tr>
+              </tr> -->
 
               <tr>
                 <th scope="row">Founder Initial Capital Contribution</th>
@@ -328,7 +328,7 @@
               :title="
                 name.name +
                 ' (' +
-                Math.round(equitySplit[index] * 100) +
+                Math.round(((equitySplit[index] * 100)/5))*5 +
                 '%' +
                 ')'
               "
@@ -342,7 +342,7 @@
               >
                 <span class="text-truncate"
                   >{{ name.name }} ({{
-                    Math.round(equitySplit[index] * 100)
+                    Math.round(((equitySplit[index] * 100)/5))*5
                   }}%)</span
                 >
               </div>
@@ -354,9 +354,10 @@
 
           <Pie class="m-auto p-0" :data="chartData" :options="chartOptions" />
 
+          <button type="button" class="btn btn-outline-primary btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseFounders" aria-expanded="false" aria-controls="collapseExample">Modify Founders</button>
+          <button type="button" class="btn btn-outline-dark btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseExample">Share Results</button>
 
-          <button type="button" class="btn btn-outline-dark btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Share Results</button>
-          <div class="collapse m-3" id="collapseExample">
+          <div class="collapse m-3" id="collapseEmail">
             <div class="card card-body">
               <form action="" @submit.prevent="sendEmailJS">
               <div class="mb-3">
@@ -376,6 +377,48 @@
             </form>
             </div>
           </div>
+
+          <div class="collapse m-3" id="collapseFounders">
+            <div class="card card-body">
+              <form @submit.prevent="submitForm" class="w-100 m-auto">
+                <div
+                  class="form-floating"
+                  v-for="(founder, index) in founders"
+                  :key="index"
+                >
+                  <input
+                    type="text"
+                    class="form-control rounded-bottom-0"
+                    :id="'founder' + index"
+                    v-model="founder.name"
+                    :required="index < 2"
+                    placeholder="Founder Name"
+                  />
+                  <label :for="'founder' + index">Founder {{ index + 1 }}</label>
+                  <p class="text-start my-2 m-1">
+                  <a
+                    href="#"
+                    class="link-body-emphasis text-start text-danger link-offset-2 link-underline-opacity-0"
+                    @click="removeFounder(index)"
+                    v-show="founders.length > 2"
+                    >Remove Founder <i class="bi bi-trash"></i
+                  ></a>
+                </p>
+                </div>
+                <p class="text-start my-2 m-1">
+                  <a
+                    href="#"
+                    class="link-body-emphasis link-offset-2 link-underline-opacity-25"
+                    @click="addFounder"
+                    v-show="founders.length < 4"
+                    >Add Founder <i class="bi bi-plus"></i
+                  ></a>
+                </p>
+              </form>
+            </div>
+          </div>
+
+
         </div>
       </div>
     </div>
@@ -399,7 +442,7 @@ export default {
     },
   },
   components: {
-    Pie
+    Pie,
   },
   mounted() {
     for (let index = 0; index < this.founderDetails.length; index++) {
@@ -407,36 +450,36 @@ export default {
       this.FoundersInformation.FounderInvolvementInProductDevelopment.push(0);
       this.FoundersInformation.FounderInvolvementInSalesAndMarketing.push(0);
       this.FoundersInformation.FounderInvolvementInOperations.push(0);
-      this.FoundersInformation.FounderSalaryBeforeFunding.push(0);
+      // this.FoundersInformation.FounderSalaryBeforeFunding.push(0);
       this.FoundersInformation.FounderYearsOfExperience.push(0);
       this.FoundersInformation.FounderReplicability.push(1);
-      this.FoundersInformation.FounderIsCEO.push(0);
-      this.FoundersInformation.FounderIsIdeaExecution.push(0);
+      // this.FoundersInformation.FounderIsCEO.push(0);
+      // this.FoundersInformation.FounderIsIdeaExecution.push(0);
       this.FoundersInformation.FounderInitialCapitalContribution.push(1);
     }
    
   },
   data() {
     return {
+      founders: this.founderDetails,
       FoundersInformation: {
         FounderInvolvementBeforeFunding: [],
         FounderInvolvementInProductDevelopment: [],
         FounderInvolvementInSalesAndMarketing: [],
         FounderInvolvementInOperations: [],
-        FounderSalaryBeforeFunding: [],
+        // FounderSalaryBeforeFunding: [],
         FounderYearsOfExperience: [],
         FounderReplicability: [],
-        FounderIsCEO: [],
-        FounderIsIdeaExecution: [],
+        // FounderIsCEO: [],
+        // FounderIsIdeaExecution: [],
         FounderInitialCapitalContribution: [],
       },
       colors: [
-        "#0d6efd",
-        "#6c757d",
-        "#198754",
-        "#dc3545",
-        "#ffc107",
-        "#0dcaf0",
+        "#F03A47",
+        "#AF5B5B",
+        "#F6F4F3",
+        "#276FBF",
+        "#183059",
       ],
       
       chartOptions:{maintainAspectRatio: true, aspectRatio:0.9, responsive:false},
@@ -446,6 +489,41 @@ export default {
     };
   },
   methods:{
+    removeFounder(index){
+      this.founders.splice(index, 1);
+      //shift all information to new index
+      for (let i = index; i < this.founders.length; i++) {
+        this.FoundersInformation.FounderInvolvementBeforeFunding[i] = this.FoundersInformation.FounderInvolvementBeforeFunding[i+1];
+        this.FoundersInformation.FounderInvolvementInProductDevelopment[i] = this.FoundersInformation.FounderInvolvementInProductDevelopment[i+1];
+        this.FoundersInformation.FounderInvolvementInSalesAndMarketing[i] = this.FoundersInformation.FounderInvolvementInSalesAndMarketing[i+1];
+        this.FoundersInformation.FounderInvolvementInOperations[i] = this.FoundersInformation.FounderInvolvementInOperations[i+1];
+        // this.FoundersInformation.FounderSalaryBeforeFunding[i] = this.FoundersInformation.FounderSalaryBeforeFunding[i+1];
+        this.FoundersInformation.FounderYearsOfExperience[i] = this.FoundersInformation.FounderYearsOfExperience[i+1];
+        this.FoundersInformation.FounderReplicability[i] = this.FoundersInformation.FounderReplicability[i+1];
+        // this.FoundersInformation.FounderIsCEO[i] = this.FoundersInformation.FounderIsCEO[i+1];
+        // this.FoundersInformation.FounderIsIdeaExecution[i] = this.FoundersInformation.FounderIsIdeaExecution[i+1];
+        this.FoundersInformation.FounderInitialCapitalContribution[i] = this.FoundersInformation.FounderInitialCapitalContribution[i+1];
+      }
+
+    },
+    reInitFounder(index){
+      this.FoundersInformation.FounderInvolvementBeforeFunding[index] = 0;
+      this.FoundersInformation.FounderInvolvementInProductDevelopment[index] = 0;
+      this.FoundersInformation.FounderInvolvementInSalesAndMarketing[index] = 0;
+      this.FoundersInformation.FounderInvolvementInOperations[index] = 0;
+      // this.FoundersInformation.FounderSalaryBeforeFunding[index] = 0;
+      this.FoundersInformation.FounderYearsOfExperience[index] = 0;
+      this.FoundersInformation.FounderReplicability[index] = 1;
+      // this.FoundersInformation.FounderIsCEO[index] = 0;
+      // this.FoundersInformation.FounderIsIdeaExecution[index] = 0;
+      this.FoundersInformation.FounderInitialCapitalContribution[index] = 1;
+    },
+    addFounder() {
+      this.founders.push({ name: "" });
+      let founderIndex = this.founders.length - 1;
+      //init all values
+      this.reInitFounder(founderIndex);
+    },
     updateChartData(){
       this.chartData.datasets[0].data = [...this.equitySplit.map((value)=>value*100)];
     },
@@ -495,7 +573,7 @@ export default {
         message += `Founder Involvement In Product Development: ${this.FoundersInformation.FounderInvolvementInProductDevelopment[i] * 100}% <br>`;
         message += `Founder Involvement In Sales And Marketing: ${this.FoundersInformation.FounderInvolvementInSalesAndMarketing[i] * 100}% <br>`;
         message += `Founder Involvement In Operations: ${this.FoundersInformation.FounderInvolvementInOperations[i] * 100}% <br>`;
-        message += `Founder Salary Before Funding: $${this.FoundersInformation.FounderSalaryBeforeFunding[i]} per month<br>`;
+        // message += `Founder Salary Before Funding: $${this.FoundersInformation.FounderSalaryBeforeFunding[i]} per month<br>`;
         message += `Founder Years Of Experience: ${this.FoundersInformation.FounderYearsOfExperience[i]}<br>`;
         if(this.FoundersInformation.FounderReplicability[i] == 1){
           message += `Founder Replicability: Very Easy<br>`;
@@ -511,16 +589,16 @@ export default {
           message += `Founder Replicability: ${this.FoundersInformation.FounderReplicability[i]}<br>`;
         }
 
-        if(this.FoundersInformation.FounderIsCEO[i])
-          message += `Founder Is CEO: Yes<br>`
-        else
-          message += `Founder Is CEO: No<br>`
+        // if(this.FoundersInformation.FounderIsCEO[i])
+        //   message += `Founder Is CEO: Yes<br>`
+        // else
+        //   message += `Founder Is CEO: No<br>`
 
-        if(this.FoundersInformation.FounderIsIdeaExecution[i])
-          message += `Founder's Idea for Execution: Yes<br>`
-        else
-          message += `Founder's Idea for Execution: No<br>`
-        message += `Founder Initial Capital Contribution: $${this.FoundersInformation.FounderInitialCapitalContribution[i]}<br><br>`;
+        // if(this.FoundersInformation.FounderIsIdeaExecution[i])
+        //   message += `Founder's Idea for Execution: Yes<br>`
+        // else
+        //   message += `Founder's Idea for Execution: No<br>`
+        // message += `Founder Initial Capital Contribution: $${this.FoundersInformation.FounderInitialCapitalContribution[i]}<br><br>`;
 
         message += `----------------------------------------<br><br>`;
       }
@@ -569,19 +647,19 @@ export default {
           parseInt(
             this.FoundersInformation.FounderInvolvementInOperations[index]
           ) / 100;
-        let founderSalary =
-          this.FoundersInformation.FounderSalaryBeforeFunding[index];
+        // let founderSalary =
+        //   this.FoundersInformation.FounderSalaryBeforeFunding[index];
 
-        if (founderSalary > 0) {
-          if (founderSalary > 4000) {
-            founderSalary = -4;
-          } else {
-            let founderSalaryMult = founderSalary / 1000;
-            founderSalary = founderSalaryMult * -0.5;
-          }
-        } else {
-          founderSalary = 4;
-        }
+        // if (founderSalary > 0) {
+        //   if (founderSalary > 4000) {
+        //     founderSalary = -4;
+        //   } else {
+        //     let founderSalaryMult = founderSalary / 1000;
+        //     founderSalary = founderSalaryMult * -0.5;
+        //   }
+        // } else {
+        //   founderSalary = 4;
+        // }
 
         let founderYOE =
           this.FoundersInformation.FounderYearsOfExperience[index] / 10;
@@ -602,38 +680,39 @@ export default {
           founderReplicability /= 5;
         }
 
-        let founderCEO = 0;
+        // let founderCEO = 0;
 
-        if (this.FoundersInformation.FounderIsCEO[index]) {
-          founderCEO = 1;
-        } else {
-          founderCEO = 0;
-        }
+        // if (this.FoundersInformation.FounderIsCEO[index]) {
+        //   founderCEO = 1;
+        // } else {
+        //   founderCEO = 0;
+        // }
 
-        let founderIE = 0;
+        // let founderIE = 0;
 
-        if (this.FoundersInformation.FounderIsIdeaExecution[index]) {
-          founderIE = 1;
-        } else {
-          founderIE = 0;
-        }
+        // if (this.FoundersInformation.FounderIsIdeaExecution[index]) {
+        //   founderIE = 1;
+        // } else {
+        //   founderIE = 0;
+        // }
 
         let founderICC =
           this.FoundersInformation.FounderInitialCapitalContribution[index] /
           totalInvestment;
 
-        //adding up the points, multiplying by the weightage
+        //adding up the points, multiplying by the weightage (EXCLUDED : founderCEO, founderIE, founderSalary)
         individualEquity +=
           founderInvolvement * 5 +
           founderIPD * 3 +
           founderISM * 3 +
           founderIO * 3 +
-          founderSalary * 4 +
           founderYOE * 4 +
           founderReplicability * 5 +
-          founderCEO * 2 +
-          founderIE * 1 +
           founderICC * 4;
+
+          // founderCEO * 2 +
+          // founderIE * 1 +
+          // founderSalary * 4 +
 
         equitySplits.push(individualEquity);
       }
@@ -650,11 +729,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
-*{
-  font: 1em 'Poppins', sans-serif;
-}
-
 .progress,
 .progress-stacked {
   --bs-progress-height: 1.5rem;
