@@ -112,7 +112,7 @@
                     :name="'fipd' + founder.name"
                     :id="'sliderfipd' + founder.name"
                   />
-                  ({{FoundersInformation.FounderInvolvementInProductDevelopment[count]}}%)
+                  ({{lpad(FoundersInformation.FounderInvolvementInProductDevelopment[count],3)}}%)
                 </td>
               </tr>
               <tr>
@@ -138,7 +138,7 @@
                     :id="'sliderfism' + founder.name"
                   />
 
-                  ({{FoundersInformation.FounderInvolvementInSalesAndMarketing[count]}}%)
+                  ({{lpad(FoundersInformation.FounderInvolvementInSalesAndMarketing[count],3)}}%)
                 </td>
               </tr>
 
@@ -162,7 +162,7 @@
                     :name="'fiio' + founder.name"
                     :id="'sliderfiio' + founder.name"
                   />
-                  ({{FoundersInformation.FounderInvolvementInOperations[count]}}%)
+                  ({{lpad(FoundersInformation.FounderInvolvementInOperations[count],3)}}%)
                 </td>
 
                
@@ -355,9 +355,9 @@
           <Pie class="m-auto p-0" :data="chartData" :options="chartOptions" />
 
           <button type="button" class="btn btn-outline-primary btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseFounders" aria-expanded="false" aria-controls="collapseExample">Modify Founders</button>
-          <button type="button" class="btn btn-outline-dark btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseExample">Share Results</button>
+          <!-- <button type="button" class="btn btn-outline-dark btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseExample">Share Results</button> -->
 
-          <div class="collapse m-3" id="collapseEmail">
+          <!-- <div class="collapse m-3" id="collapseEmail">
             <div class="card card-body">
               <form action="" @submit.prevent="sendEmailJS">
               <div class="mb-3">
@@ -376,7 +376,7 @@
               
             </form>
             </div>
-          </div>
+          </div> -->
 
           <div class="collapse m-3" id="collapseFounders">
             <div class="card card-body">
@@ -388,7 +388,7 @@
                 >
                   <input
                     type="text"
-                    class="form-control rounded-bottom-0"
+                    class="form-control rounded-bottom-0 mb-2"
                     :id="'founder' + index"
                     v-model="founder.name"
                     :required="index < 2"
@@ -475,10 +475,10 @@ export default {
         FounderInitialCapitalContribution: [],
       },
       colors: [
-        "#F03A47",
-        "#AF5B5B",
-        "#F6F4F3",
-        "#276FBF",
+        "#D72638",
+        "#3F88C5",
+        "#F49D37",
+        "#140F2D",
         "#183059",
       ],
       
@@ -489,6 +489,10 @@ export default {
     };
   },
   methods:{
+    lpad(value, padding){
+      var zeroes = new Array(padding+1).join("0");
+      return (zeroes + value).slice(-padding);
+    },
     removeFounder(index){
       this.founders.splice(index, 1);
       //shift all information to new index

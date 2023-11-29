@@ -13,7 +13,7 @@
       >
         <input
           type="text"
-          class="form-control rounded-bottom-0"
+          class="form-control rounded-bottom-0 mb-2"
           :id="'founder' + index"
           v-model="founder.name"
           :required="index < 2"
@@ -67,5 +67,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
