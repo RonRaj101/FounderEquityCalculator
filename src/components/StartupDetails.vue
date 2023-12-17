@@ -33,7 +33,7 @@
             <tbody>
               <tr class="">
                 <th scope="row">
-                  Founder engagment before this company before raising funds?
+                  How much will this founder be engaged in this company before it raises funds?
                 </th>
                 <td
                   class=""
@@ -97,7 +97,7 @@
                 </td>
               </tr>
               <tr>
-                <th scope="row">Founder involvement in product development?</th>
+                <th scope="row">Allocate how much each founder will be involved in product development.</th>
                 <td v-for="(founder, count) in founderDetails" :key="count">
                   <input
                     class="form-range"
@@ -116,7 +116,7 @@
                 </td>
               </tr>
               <tr>
-                <th scope="row">Founder involvement in Sales and Marketing?</th>
+                <th scope="row">Allocate how much each founder will be involved in sales and marketing. </th>
                 <td
                   colspan=""
                   class=""
@@ -143,7 +143,7 @@
               </tr>
 
               <tr>
-                <th scope="row">Founder involvement in Operations?</th>
+                <th scope="row">Allocate how much each founder will be involved in operations. </th>
                 <td
                   colspan=""
                   class=""
@@ -168,7 +168,7 @@
                
               </tr>
 
-              <!-- <tr>
+              <tr>
                 <th scope="row">Founder salary ($monthly) before funding?</th>
                 <td
                   colspan=""
@@ -187,11 +187,12 @@
                 </td>
 
                 
-              </tr> -->
+              </tr>
 
               <tr>
                 <th scope="row">
-                  Years of experience in her/his primary field?
+                  How many years of experience is this co-founder bringing to the table in her or his
+primary field of responsibility? 
                 </th>
                 <td
                   colspan=""
@@ -211,7 +212,7 @@
               </tr>
 
               <tr>
-                <th scope="row">Founder Contribution Replicability?</th>
+                <th scope="row">How hard or easy is it replace or replicate this founder's contribution? </th>
                 <td
                   colspan=""
                   v-for="(founder, count) in founderDetails"
@@ -238,7 +239,7 @@
                 </td>
               </tr>
 
-              <!-- <tr>
+              <tr>
                 <th scope="row">Is Founder CEO?</th>
                 <td
                   colspan=""
@@ -256,9 +257,9 @@
                     />
                   </div>
                 </td>
-              </tr> -->
+              </tr>
 
-              <!-- <tr>
+              <tr>
                 <th scope="row">Is it this founders idea execution?</th>
                 <td
                   colspan=""
@@ -278,10 +279,10 @@
                     />
                   </div>
                 </td>
-              </tr> -->
+              </tr>
 
               <tr>
-                <th scope="row">Founder Initial Capital Contribution</th>
+                <th scope="row">Will this founder be making an initial capital contribution and, if so, how much? S</th>
                 <td
                   colspan=""
                   v-for="(founder, count) in founderDetails"
@@ -355,9 +356,9 @@
           <Pie class="m-auto p-0" :data="chartData" :options="chartOptions" />
 
           <button type="button" class="btn btn-outline-primary btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseFounders" aria-expanded="false" aria-controls="collapseExample">Modify Founders</button>
-          <!-- <button type="button" class="btn btn-outline-dark btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseExample">Share Results</button> -->
+          <button type="button" class="btn btn-outline-dark btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseExample">Share Results</button>
 
-          <!-- <div class="collapse m-3" id="collapseEmail">
+          <div class="collapse m-3" id="collapseEmail">
             <div class="card card-body">
               <form action="" @submit.prevent="sendEmailJS">
               <div class="mb-3">
@@ -376,7 +377,7 @@
               
             </form>
             </div>
-          </div> -->
+          </div>
 
           <div class="collapse m-3" id="collapseFounders">
             <div class="card card-body">
@@ -450,11 +451,11 @@ export default {
       this.FoundersInformation.FounderInvolvementInProductDevelopment.push(0);
       this.FoundersInformation.FounderInvolvementInSalesAndMarketing.push(0);
       this.FoundersInformation.FounderInvolvementInOperations.push(0);
-      // this.FoundersInformation.FounderSalaryBeforeFunding.push(0);
+      this.FoundersInformation.FounderSalaryBeforeFunding.push(0);
       this.FoundersInformation.FounderYearsOfExperience.push(0);
       this.FoundersInformation.FounderReplicability.push(1);
-      // this.FoundersInformation.FounderIsCEO.push(0);
-      // this.FoundersInformation.FounderIsIdeaExecution.push(0);
+      this.FoundersInformation.FounderIsCEO.push(0);
+      this.FoundersInformation.FounderIsIdeaExecution.push(0);
       this.FoundersInformation.FounderInitialCapitalContribution.push(1);
     }
    
@@ -467,11 +468,11 @@ export default {
         FounderInvolvementInProductDevelopment: [],
         FounderInvolvementInSalesAndMarketing: [],
         FounderInvolvementInOperations: [],
-        // FounderSalaryBeforeFunding: [],
+        FounderSalaryBeforeFunding: [],
         FounderYearsOfExperience: [],
         FounderReplicability: [],
-        // FounderIsCEO: [],
-        // FounderIsIdeaExecution: [],
+        FounderIsCEO: [],
+        FounderIsIdeaExecution: [],
         FounderInitialCapitalContribution: [],
       },
       colors: [
@@ -481,7 +482,6 @@ export default {
         "#140F2D",
         "#183059",
       ],
-      
       chartOptions:{maintainAspectRatio: true, aspectRatio:0.9, responsive:false},
       email: '',
       sendEmail: false,
@@ -501,11 +501,11 @@ export default {
         this.FoundersInformation.FounderInvolvementInProductDevelopment[i] = this.FoundersInformation.FounderInvolvementInProductDevelopment[i+1];
         this.FoundersInformation.FounderInvolvementInSalesAndMarketing[i] = this.FoundersInformation.FounderInvolvementInSalesAndMarketing[i+1];
         this.FoundersInformation.FounderInvolvementInOperations[i] = this.FoundersInformation.FounderInvolvementInOperations[i+1];
-        // this.FoundersInformation.FounderSalaryBeforeFunding[i] = this.FoundersInformation.FounderSalaryBeforeFunding[i+1];
+        this.FoundersInformation.FounderSalaryBeforeFunding[i] = this.FoundersInformation.FounderSalaryBeforeFunding[i+1];
         this.FoundersInformation.FounderYearsOfExperience[i] = this.FoundersInformation.FounderYearsOfExperience[i+1];
         this.FoundersInformation.FounderReplicability[i] = this.FoundersInformation.FounderReplicability[i+1];
-        // this.FoundersInformation.FounderIsCEO[i] = this.FoundersInformation.FounderIsCEO[i+1];
-        // this.FoundersInformation.FounderIsIdeaExecution[i] = this.FoundersInformation.FounderIsIdeaExecution[i+1];
+        this.FoundersInformation.FounderIsCEO[i] = this.FoundersInformation.FounderIsCEO[i+1];
+        this.FoundersInformation.FounderIsIdeaExecution[i] = this.FoundersInformation.FounderIsIdeaExecution[i+1];
         this.FoundersInformation.FounderInitialCapitalContribution[i] = this.FoundersInformation.FounderInitialCapitalContribution[i+1];
       }
 
@@ -515,11 +515,11 @@ export default {
       this.FoundersInformation.FounderInvolvementInProductDevelopment[index] = 0;
       this.FoundersInformation.FounderInvolvementInSalesAndMarketing[index] = 0;
       this.FoundersInformation.FounderInvolvementInOperations[index] = 0;
-      // this.FoundersInformation.FounderSalaryBeforeFunding[index] = 0;
+      this.FoundersInformation.FounderSalaryBeforeFunding[index] = 0;
       this.FoundersInformation.FounderYearsOfExperience[index] = 0;
       this.FoundersInformation.FounderReplicability[index] = 1;
-      // this.FoundersInformation.FounderIsCEO[index] = 0;
-      // this.FoundersInformation.FounderIsIdeaExecution[index] = 0;
+      this.FoundersInformation.FounderIsCEO[index] = 0;
+      this.FoundersInformation.FounderIsIdeaExecution[index] = 0;
       this.FoundersInformation.FounderInitialCapitalContribution[index] = 1;
     },
     addFounder() {
@@ -577,7 +577,7 @@ export default {
         message += `Founder Involvement In Product Development: ${this.FoundersInformation.FounderInvolvementInProductDevelopment[i] * 100}% <br>`;
         message += `Founder Involvement In Sales And Marketing: ${this.FoundersInformation.FounderInvolvementInSalesAndMarketing[i] * 100}% <br>`;
         message += `Founder Involvement In Operations: ${this.FoundersInformation.FounderInvolvementInOperations[i] * 100}% <br>`;
-        // message += `Founder Salary Before Funding: $${this.FoundersInformation.FounderSalaryBeforeFunding[i]} per month<br>`;
+        message += `Founder Salary Before Funding: $${this.FoundersInformation.FounderSalaryBeforeFunding[i]} per month<br>`;
         message += `Founder Years Of Experience: ${this.FoundersInformation.FounderYearsOfExperience[i]}<br>`;
         if(this.FoundersInformation.FounderReplicability[i] == 1){
           message += `Founder Replicability: Very Easy<br>`;
@@ -593,16 +593,16 @@ export default {
           message += `Founder Replicability: ${this.FoundersInformation.FounderReplicability[i]}<br>`;
         }
 
-        // if(this.FoundersInformation.FounderIsCEO[i])
-        //   message += `Founder Is CEO: Yes<br>`
-        // else
-        //   message += `Founder Is CEO: No<br>`
+        if(this.FoundersInformation.FounderIsCEO[i])
+          message += `Founder Is CEO: Yes<br>`
+        else
+          message += `Founder Is CEO: No<br>`
 
-        // if(this.FoundersInformation.FounderIsIdeaExecution[i])
-        //   message += `Founder's Idea for Execution: Yes<br>`
-        // else
-        //   message += `Founder's Idea for Execution: No<br>`
-        // message += `Founder Initial Capital Contribution: $${this.FoundersInformation.FounderInitialCapitalContribution[i]}<br><br>`;
+        if(this.FoundersInformation.FounderIsIdeaExecution[i])
+          message += `Founder's Idea for Execution: Yes<br>`
+        else
+          message += `Founder's Idea for Execution: No<br>`
+        message += `Founder Initial Capital Contribution: $${this.FoundersInformation.FounderInitialCapitalContribution[i]}<br><br>`;
 
         message += `----------------------------------------<br><br>`;
       }
@@ -651,19 +651,19 @@ export default {
           parseInt(
             this.FoundersInformation.FounderInvolvementInOperations[index]
           ) / 100;
-        // let founderSalary =
-        //   this.FoundersInformation.FounderSalaryBeforeFunding[index];
+        let founderSalary =
+          this.FoundersInformation.FounderSalaryBeforeFunding[index];
 
-        // if (founderSalary > 0) {
-        //   if (founderSalary > 4000) {
-        //     founderSalary = -4;
-        //   } else {
-        //     let founderSalaryMult = founderSalary / 1000;
-        //     founderSalary = founderSalaryMult * -0.5;
-        //   }
-        // } else {
-        //   founderSalary = 4;
-        // }
+        if (founderSalary > 0) {
+          if (founderSalary > 4000) {
+            founderSalary = -4;
+          } else {
+            let founderSalaryMult = founderSalary / 1000;
+            founderSalary = founderSalaryMult * -0.5;
+          }
+        } else {
+          founderSalary = 4;
+        }
 
         let founderYOE =
           this.FoundersInformation.FounderYearsOfExperience[index] / 10;
@@ -684,21 +684,21 @@ export default {
           founderReplicability /= 5;
         }
 
-        // let founderCEO = 0;
+        let founderCEO = 0;
 
-        // if (this.FoundersInformation.FounderIsCEO[index]) {
-        //   founderCEO = 1;
-        // } else {
-        //   founderCEO = 0;
-        // }
+        if (this.FoundersInformation.FounderIsCEO[index]) {
+          founderCEO = 1;
+        } else {
+          founderCEO = 0;
+        }
 
-        // let founderIE = 0;
+        let founderIE = 0;
 
-        // if (this.FoundersInformation.FounderIsIdeaExecution[index]) {
-        //   founderIE = 1;
-        // } else {
-        //   founderIE = 0;
-        // }
+        if (this.FoundersInformation.FounderIsIdeaExecution[index]) {
+          founderIE = 1;
+        } else {
+          founderIE = 0;
+        }
 
         let founderICC =
           this.FoundersInformation.FounderInitialCapitalContribution[index] /
@@ -712,11 +712,10 @@ export default {
           founderIO * 3 +
           founderYOE * 4 +
           founderReplicability * 5 +
-          founderICC * 4;
-
-          // founderCEO * 2 +
-          // founderIE * 1 +
-          // founderSalary * 4 +
+          founderICC * 4 +
+          founderCEO * 2 +
+          founderIE * 1 +
+          founderSalary * 4;
 
         equitySplits.push(individualEquity);
       }

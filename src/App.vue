@@ -1,37 +1,40 @@
 <script setup>
-import FounderDetails from './components/FounderDetails.vue'
-import StartupDetails from './components/StartupDetails.vue'
-import FinalResults from './components/FinalResults.vue'
+import FounderDetails from "./components/FounderDetails.vue";
+import StartupDetails from "./components/StartupDetails.vue";
+import FinalResults from "./components/FinalResults.vue";
 </script>
 
 <template>
-  <component :is="activeCompoment" @to-calculate="toCalculate" :founderDetails="founderDetails"/>
+  <component
+    :is="activeCompoment"
+    @to-calculate="toCalculate"
+    :founderDetails="founderDetails"
+  />
 </template>
 
 <script>
-
 export default {
-  name: 'App',
+  name: "App",
   components: {
     FounderDetails,
     StartupDetails,
-    FinalResults
+    FinalResults,
   },
   data() {
     return {
       activeCompoment: FounderDetails,
-      founderDetails: []
-    }
+      founderDetails: [],
+    };
   },
   methods: {
     toCalculate(founders) {
       this.activeCompoment = StartupDetails;
-      founders.forEach(founder => {
+      founders.forEach((founder) => {
         this.founderDetails.push(founder);
       });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style>
