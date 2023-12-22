@@ -1,17 +1,13 @@
 import { createApp } from 'vue'
-import { defineStore } from 'pinia'
+import { createPinia } from 'pinia';
 
 import App from './App.vue'
 
-export const useStore = defineStore('main', {
-    state: () => ({
-        founders: [],
-    }),
-    actions: {
-        increment() {
-            this.count++
-        },
-    },  
-});
+const pinia = createPinia()
+const app = createApp(App)
 
-createApp(App).mount('#app')
+app.use(pinia)
+// ✅ works because the pinia instance is now active
+app.mount('#app')
+
+

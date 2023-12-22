@@ -1,3 +1,4 @@
+
 <template>
 
   <nav class="navbar bg-body-tertiary m-auto">
@@ -7,7 +8,7 @@
   </nav>
 
 
-  <div class="details w-100 m-auto row">
+  <div class="details w-100 m-0 row">
     <div class="form p-0 m-0 col-lg-8 col-md-12">
       <!-- Calculation Form -->
     
@@ -178,9 +179,14 @@
                   <input
                     class="form-control"
                     type="number"
+                    
                     v-model="
                       FoundersInformation.FounderSalaryBeforeFunding[count]
                     "
+                    min="0"
+                    @keydown="$event.key === '-' ? $event.preventDefault() : null" 
+                    @copy.prevent 
+                    @paste.prevent
                     :name="'fsbf' + founder.name"
                     :id="'fsbf' + founder.name"
                   />
@@ -205,6 +211,10 @@ primary field of responsibility?
                     v-model="
                       FoundersInformation.FounderYearsOfExperience[count]
                     "
+                    min="0"
+                    @keydown="$event.key === '-' ? $event.preventDefault() : null" 
+                    @copy.prevent 
+                    @paste.prevent
                     :name="'fyoe' + founder.name"
                     :id="'fyoe' + founder.name"
                   />
@@ -282,7 +292,7 @@ primary field of responsibility?
               </tr>
 
               <tr>
-                <th scope="row">Will this founder be making an initial capital contribution and, if so, how much? S</th>
+                <th scope="row">Will this founder be making an initial capital contribution and, if so, how much?</th>
                 <td
                   colspan=""
                   v-for="(founder, count) in founderDetails"
@@ -296,6 +306,10 @@ primary field of responsibility?
                         count
                       ]
                     "
+                    min="0"
+                    @keydown="$event.key === '-' ? $event.preventDefault() : null" 
+                    @copy.prevent 
+                    @paste.prevent
                     :name="'ficc' + founder.name"
                     :id="'ficc' + founder.name"
                   />
@@ -329,13 +343,12 @@ primary field of responsibility?
               :title="
                 name.name +
                 ' (' +
-                Math.round(((equitySplit[index] * 100)/5))*5 +
+                Math.round(equitySplit[index] * 100) +
                 '%' +
                 ')'
               "
             >
               <!-- // -->
-              <!-- Standard Color Utility for the Progress Bar, using bootstrap in built contrast text feature by removing 'subtle' from bg color hence it is not supported yet -->
               <div
                 class="progress-bar"
                 :style="'background-color: ' +colors[((index % founderDetails.length) + founderDetails.length) % founderDetails.length] +';'
@@ -343,7 +356,7 @@ primary field of responsibility?
               >
                 <span class="text-truncate"
                   >{{ name.name }} ({{
-                    Math.round(((equitySplit[index] * 100)/5))*5
+                    Math.round(equitySplit[index] * 100)
                   }}%)</span
                 >
               </div>
@@ -356,7 +369,7 @@ primary field of responsibility?
           <Pie class="m-auto p-0" :data="chartData" :options="chartOptions" />
 
           <button type="button" class="btn btn-outline-primary btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseFounders" aria-expanded="false" aria-controls="collapseExample">Modify Founders</button>
-          <button type="button" class="btn btn-outline-dark btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseExample">Share Results</button>
+          <button type="button" class="btn btn-outline-dark btn-md mt-3" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseExample" @click="submitForm">View Results</button>
 
           <div class="collapse m-3" id="collapseEmail">
             <div class="card card-body">
@@ -442,6 +455,7 @@ export default {
       required: true,
     },
   },
+  emits: ["to-final-results"],
   components: {
     Pie,
   },
@@ -458,7 +472,6 @@ export default {
       this.FoundersInformation.FounderIsIdeaExecution.push(0);
       this.FoundersInformation.FounderInitialCapitalContribution.push(1);
     }
-   
   },
   data() {
     return {
@@ -489,6 +502,7 @@ export default {
     };
   },
   methods:{
+    //pad the number with zeroes, easier to read, have same length
     lpad(value, padding){
       var zeroes = new Array(padding+1).join("0");
       return (zeroes + value).slice(-padding);
@@ -508,7 +522,6 @@ export default {
         this.FoundersInformation.FounderIsIdeaExecution[i] = this.FoundersInformation.FounderIsIdeaExecution[i+1];
         this.FoundersInformation.FounderInitialCapitalContribution[i] = this.FoundersInformation.FounderInitialCapitalContribution[i+1];
       }
-
     },
     reInitFounder(index){
       this.FoundersInformation.FounderInvolvementBeforeFunding[index] = 0;
@@ -552,11 +565,17 @@ export default {
       this.email = ''
       this.message = ''
       this.sendEmail = false;
-    }
+    },
+    submitForm() {
+      this.$emit(
+        "to-final-results",
+        this.FoundersInformation
+      );
+    },
   },
   computed: {
     emailMessage(){
-      //detailed report for all founders
+      //detailed report for all founders, compiled into an email message
 
       let message = `Equity Split Report: <br><hr>`;
       for (let i = 0; i < this.founderDetails.length; i++) {
@@ -704,7 +723,7 @@ export default {
           this.FoundersInformation.FounderInitialCapitalContribution[index] /
           totalInvestment;
 
-        //adding up the points, multiplying by the weightage (EXCLUDED : founderCEO, founderIE, founderSalary)
+        // adding up the points, multiplying by the weightage prev:(EXCLUDED : founderCEO, founderIE, founderSalary)
         individualEquity +=
           founderInvolvement * 5 +
           founderIPD * 3 +
@@ -735,10 +754,6 @@ export default {
 .progress,
 .progress-stacked {
   --bs-progress-height: 1.5rem;
-}
-
-.progress-bar:hover {
-  border: 1px solid black;
 }
 
 .progress-bar {

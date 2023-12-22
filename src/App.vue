@@ -2,13 +2,19 @@
 import FounderDetails from "./components/FounderDetails.vue";
 import StartupDetails from "./components/StartupDetails.vue";
 import FinalResults from "./components/FinalResults.vue";
+
+import { useStore } from "@/stores/piniaStore";
+const store = useStore();
+store;
 </script>
 
 <template>
   <component
     :is="activeCompoment"
     @to-calculate="toCalculate"
+    @to-final-results="toFinalResults"
     :founderDetails="founderDetails"
+    :founderInformation="founderInformation"
   />
 </template>
 
@@ -32,6 +38,10 @@ export default {
       founders.forEach((founder) => {
         this.founderDetails.push(founder);
       });
+    },
+    toFinalResults(founderInformation) {
+      this.activeCompoment = FinalResults;
+      this.founderInformation = founderInformation;
     },
   },
 };

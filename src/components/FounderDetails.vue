@@ -1,4 +1,6 @@
+
 <template>
+  
   <nav class="navbar bg-body-tertiary m-auto">
     <div class="container">
       <span class="navbar-brand mb-0 h1">Add Founder Names</span>
@@ -38,14 +40,22 @@
 </template>
 
 <script>
+import { useStore } from "@/stores/piniaStore";
 export default {
   emits: ["to-calculate"],
   name: "FounderDetails",
+  setup() {
+    const store = useStore(); 
+    return { store };
+  },
   props: {
     founderDetails: {
       type: Array,
       required: true,
     },
+  },
+  mounted() {
+    
   },
   data() {
     return {
@@ -63,6 +73,7 @@ export default {
       this.founders.push({ name: "" });
     },
   },
+  
 };
 </script>
 
