@@ -10,7 +10,7 @@
     <form @submit.prevent="submitForm" class="w-75 m-auto p-5">
       <div
         class="form-floating"
-        v-for="(founder, index) in founders"
+        v-for="(founder, index) in store.founderDetails"
         :key="index"
       >
         <input
@@ -27,8 +27,8 @@
         <a
           href="#"
           class="link-body-emphasis link-offset-2 link-underline-opacity-25"
-          @click="addFounder"
-          v-show="founders.length < 4"
+          @click="store.addFounder"
+          v-show="store.founderDetails.length < 4"
           >Add Founder <i class="bi bi-plus"></i
         ></a>
       </p>
@@ -48,29 +48,20 @@ export default {
     const store = useStore(); 
     return { store };
   },
-  props: {
-    founderDetails: {
-      type: Array,
-      required: true,
-    },
-  },
   mounted() {
     
   },
   data() {
     return {
-      founders: [{ name: "" }, { name: "" }],
+      
     };
   },
   methods: {
     submitForm() {
       this.$emit(
         "to-calculate",
-        this.founders.filter((founder) => founder.name !== "")
+        this.store.founderDetails.filter((founder) => founder.name !== "")
       );
-    },
-    addFounder() {
-      this.founders.push({ name: "" });
     },
   },
   

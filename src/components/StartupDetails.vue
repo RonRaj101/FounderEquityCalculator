@@ -11,7 +11,6 @@
   <div class="details w-100 m-0 row">
     <div class="form p-0 m-0 col-lg-8 col-md-12">
       <!-- Calculation Form -->
-    
       <!-- for each founder have the similar form -->
       <div class="row pt-5 px-0" style="place-content: ">
         <div
@@ -23,7 +22,7 @@
               <tr>
                 <th scope="col"></th>
                 <th
-                  v-for="(founder, count) in founderDetails"
+                  v-for="(founder, count) in store.founderDetails"
                   :key="count"
                   scope="col"
                 >
@@ -38,7 +37,7 @@
                 </th>
                 <td
                   class=""
-                  v-for="(founder, count) in founderDetails"
+                  v-for="(founder, count) in store.founderDetails"
                   :key="count"
                   colspan=""
                 >
@@ -50,7 +49,7 @@
                       id="flexRadioDefault1"
                       value="1"
                       v-model="
-                        FoundersInformation.FounderInvolvementBeforeFunding[
+                        store.founderInformation.FounderInvolvementBeforeFunding[
                           count
                         ]
                       "
@@ -68,7 +67,7 @@
                       id="flexRadioDefault2"
                       value="0.8"
                       v-model="
-                        FoundersInformation.FounderInvolvementBeforeFunding[
+                        store.founderInformation.FounderInvolvementBeforeFunding[
                           count
                         ]
                       "
@@ -86,7 +85,7 @@
                       id="flexRadioDefault3"
                       value="0.5"
                       v-model="
-                        FoundersInformation.FounderInvolvementBeforeFunding[
+                        store.founderInformation.FounderInvolvementBeforeFunding[
                           count
                         ]
                       "
@@ -99,7 +98,7 @@
               </tr>
               <tr>
                 <th scope="row">Allocate how much each founder will be involved in product development.</th>
-                <td v-for="(founder, count) in founderDetails" :key="count">
+                <td v-for="(founder, count) in store.founderDetails" :key="count">
                   <input
                     class="form-range"
                     type="range"
@@ -107,7 +106,7 @@
                     max="100"
                     step="10"
                     v-model="
-                      FoundersInformation
+                      store.founderInformation
                         .FounderInvolvementInProductDevelopment[count]
                     "
                     :name="'fipd' + founder.name"
@@ -121,7 +120,7 @@
                 <td
                   colspan=""
                   class=""
-                  v-for="(founder, count) in founderDetails"
+                  v-for="(founder, count) in store.founderDetails"
                   :key="count"
                 >
                   <input
@@ -131,7 +130,7 @@
                     max="100"
                     step="10"
                     v-model="
-                      FoundersInformation.FounderInvolvementInSalesAndMarketing[
+                      store.founderInformation.FounderInvolvementInSalesAndMarketing[
                         count
                       ]
                     "
@@ -139,7 +138,7 @@
                     :id="'sliderfism' + founder.name"
                   />
 
-                  ({{lpad(FoundersInformation.FounderInvolvementInSalesAndMarketing[count],3)}}%)
+                  ({{lpad(store.founderInformation.FounderInvolvementInSalesAndMarketing[count],3)}}%)
                 </td>
               </tr>
 
@@ -148,7 +147,7 @@
                 <td
                   colspan=""
                   class=""
-                  v-for="(founder, count) in founderDetails"
+                  v-for="(founder, count) in store.founderDetails"
                   :key="count"
                 >
                   <input
@@ -158,12 +157,12 @@
                     max="100"
                     step="10"
                     v-model="
-                      FoundersInformation.FounderInvolvementInOperations[count]
+                      store.founderInformation.FounderInvolvementInOperations[count]
                     "
                     :name="'fiio' + founder.name"
                     :id="'sliderfiio' + founder.name"
                   />
-                  ({{lpad(FoundersInformation.FounderInvolvementInOperations[count],3)}}%)
+                  ({{lpad(store.founderInformation.FounderInvolvementInOperations[count],3)}}%)
                 </td>
 
                
@@ -173,7 +172,7 @@
                 <th scope="row">Founder salary ($monthly) before funding?</th>
                 <td
                   colspan=""
-                  v-for="(founder, count) in founderDetails"
+                  v-for="(founder, count) in store.founderDetails"
                   :key="count"
                 >
                   <input
@@ -181,7 +180,7 @@
                     type="number"
                     
                     v-model="
-                      FoundersInformation.FounderSalaryBeforeFunding[count]
+                      store.founderInformation.FounderSalaryBeforeFunding[count]
                     "
                     min="0"
                     @keydown="$event.key === '-' ? $event.preventDefault() : null" 
@@ -202,14 +201,14 @@ primary field of responsibility?
                 </th>
                 <td
                   colspan=""
-                  v-for="(founder, count) in founderDetails"
+                  v-for="(founder, count) in store.founderDetails"
                   :key="count"
                 >
                   <input
                     class="form-control"
                     type="number"
                     v-model="
-                      FoundersInformation.FounderYearsOfExperience[count]
+                      store.founderInformation.FounderYearsOfExperience[count]
                     "
                     min="0"
                     @keydown="$event.key === '-' ? $event.preventDefault() : null" 
@@ -225,13 +224,13 @@ primary field of responsibility?
                 <th scope="row">How hard or easy is it replace or replicate this founder's contribution? </th>
                 <td
                   colspan=""
-                  v-for="(founder, count) in founderDetails"
+                  v-for="(founder, count) in store.founderDetails"
                   :key="count"
                 >
                   <input
                     type="range"
                     class="form-range"
-                    v-model="FoundersInformation.FounderReplicability[count]"
+                    v-model="store.founderInformation.FounderReplicability[count]"
                     step="1"
                     min="1"
                     max="5"
@@ -242,7 +241,7 @@ primary field of responsibility?
                   <span
                     >({{
                       ["Very Easy", "Easy", "Fair", "Hard", "Very Hard"][
-                        FoundersInformation.FounderReplicability[count] - 1
+                        store.founderInformation.FounderReplicability[count] - 1
                       ]
                     }})</span
                   >
@@ -253,14 +252,14 @@ primary field of responsibility?
                 <th scope="row">Is Founder CEO?</th>
                 <td
                   colspan=""
-                  v-for="(founder, count) in founderDetails"
+                  v-for="(founder, count) in store.founderDetails"
                   :key="count"
                 >
                   <div class="form-check">
                     <input
                       type="checkbox"
                       class="form-check-input"
-                      v-model="FoundersInformation.FounderIsCEO[count]"
+                      v-model="store.founderInformation.FounderIsCEO[count]"
                       name="fceo"
                       :value="founder.name"
                       :id="'fceo'"
@@ -273,7 +272,7 @@ primary field of responsibility?
                 <th scope="row">Is it this founders idea execution?</th>
                 <td
                   colspan=""
-                  v-for="(founder, count) in founderDetails"
+                  v-for="(founder, count) in store.founderDetails"
                   :key="count"
                 >
                   <div class="form-check">
@@ -281,7 +280,7 @@ primary field of responsibility?
                       type="checkbox"
                       class="form-check-input"
                       v-model="
-                        FoundersInformation.FounderIsIdeaExecution[count]
+                        store.founderInformation.FounderIsIdeaExecution[count]
                       "
                       name="fidea"
                       :value="founder.name"
@@ -290,19 +289,24 @@ primary field of responsibility?
                   </div>
                 </td>
               </tr>
-
+              <!-- 
+                @keydown="$event.key === '-' ? $event.preventDefault() : null" 
+              @copy.prevent 
+              @paste.prevent 
+                Prevents copy-pasting, negative values, and reducing to below 0
+            -->
               <tr>
                 <th scope="row">Will this founder be making an initial capital contribution and, if so, how much?</th>
                 <td
                   colspan=""
-                  v-for="(founder, count) in founderDetails"
+                  v-for="(founder, count) in store.founderDetails"
                   :key="count"
                 >
                   <input
                     class="form-control"
                     type="number"
                     v-model="
-                      FoundersInformation.FounderInitialCapitalContribution[
+                      store.founderInformation.FounderInitialCapitalContribution[
                         count
                       ]
                     "
@@ -331,19 +335,19 @@ primary field of responsibility?
         >
           <div class="progress-stacked row g-0 w-100">
             <div
-              v-for="(name, index) in founderDetails"
+              v-for="(name, index) in store.founderDetails"
               :key="index"
               class="progress"
               role="progressbar"
               :aria-label="'Segment' + index"
-              :aria-valuenow="equitySplit[index] * 100"
+              :aria-valuenow="store.equitySplit[index] * 100"
               aria-valuemin="0"
               aria-valuemax="100"
-              :style="'width:' + equitySplit[index] * 100 + '%;'"
+              :style="'width:' + store.equitySplit[index] * 100 + '%;'"
               :title="
                 name.name +
                 ' (' +
-                Math.round(equitySplit[index] * 100) +
+                Math.round(store.equitySplit[index] * 100) +
                 '%' +
                 ')'
               "
@@ -351,12 +355,12 @@ primary field of responsibility?
               <!-- // -->
               <div
                 class="progress-bar"
-                :style="'background-color: ' +colors[((index % founderDetails.length) + founderDetails.length) % founderDetails.length] +';'
+                :style="'background-color: ' +colors[((index % store.founderDetails.length) + store.founderDetails.length) % store.founderDetails.length] +';'
                 "
               >
                 <span class="text-truncate"
                   >{{ name.name }} ({{
-                    Math.round(equitySplit[index] * 100)
+                    Math.round(store.equitySplit[index] * 100)
                   }}%)</span
                 >
               </div>
@@ -413,7 +417,7 @@ primary field of responsibility?
                   <a
                     href="#"
                     class="link-body-emphasis text-start text-danger link-offset-2 link-underline-opacity-0"
-                    @click="removeFounder(index)"
+                    @click="store.removeFounder(index)"
                     v-show="founders.length > 2"
                     >Remove Founder <i class="bi bi-trash"></i
                   ></a>
@@ -446,48 +450,25 @@ import { Pie } from 'vue-chartjs'
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 import emailjs from 'emailjs-com';
+import { useStore } from "@/stores/piniaStore";
 
 export default {
   name: "StartupDetails",
-  props: {
-    founderDetails: {
-      type: Array,
-      required: true,
-    },
+  setup() {
+    const store = useStore(); 
+    return { store };
   },
   emits: ["to-final-results"],
   components: {
     Pie,
   },
   mounted() {
-    for (let index = 0; index < this.founderDetails.length; index++) {
-      this.FoundersInformation.FounderInvolvementBeforeFunding.push(0);
-      this.FoundersInformation.FounderInvolvementInProductDevelopment.push(0);
-      this.FoundersInformation.FounderInvolvementInSalesAndMarketing.push(0);
-      this.FoundersInformation.FounderInvolvementInOperations.push(0);
-      this.FoundersInformation.FounderSalaryBeforeFunding.push(0);
-      this.FoundersInformation.FounderYearsOfExperience.push(0);
-      this.FoundersInformation.FounderReplicability.push(1);
-      this.FoundersInformation.FounderIsCEO.push(0);
-      this.FoundersInformation.FounderIsIdeaExecution.push(0);
-      this.FoundersInformation.FounderInitialCapitalContribution.push(1);
-    }
+    this.store.initFounders();
   },
   data() {
     return {
-      founders: this.founderDetails,
-      FoundersInformation: {
-        FounderInvolvementBeforeFunding: [],
-        FounderInvolvementInProductDevelopment: [],
-        FounderInvolvementInSalesAndMarketing: [],
-        FounderInvolvementInOperations: [],
-        FounderSalaryBeforeFunding: [],
-        FounderYearsOfExperience: [],
-        FounderReplicability: [],
-        FounderIsCEO: [],
-        FounderIsIdeaExecution: [],
-        FounderInitialCapitalContribution: [],
-      },
+      founders: this.store.founderDetails,
+      FoundersInformation: this.store.founderInformation,
       colors: [
         "#D72638",
         "#3F88C5",
@@ -498,7 +479,7 @@ export default {
       chartOptions:{maintainAspectRatio: true, aspectRatio:0.9, responsive:false},
       email: '',
       sendEmail: false,
-      message: 'Equity Split Results: <br><br>' + this.founderDetails.toString(),
+      message: 'Equity Split Results: <br><br>' + this.store.founderDetails.toString(),
     };
   },
   methods:{
@@ -507,42 +488,12 @@ export default {
       var zeroes = new Array(padding+1).join("0");
       return (zeroes + value).slice(-padding);
     },
-    removeFounder(index){
-      this.founders.splice(index, 1);
-      //shift all information to new index
-      for (let i = index; i < this.founders.length; i++) {
-        this.FoundersInformation.FounderInvolvementBeforeFunding[i] = this.FoundersInformation.FounderInvolvementBeforeFunding[i+1];
-        this.FoundersInformation.FounderInvolvementInProductDevelopment[i] = this.FoundersInformation.FounderInvolvementInProductDevelopment[i+1];
-        this.FoundersInformation.FounderInvolvementInSalesAndMarketing[i] = this.FoundersInformation.FounderInvolvementInSalesAndMarketing[i+1];
-        this.FoundersInformation.FounderInvolvementInOperations[i] = this.FoundersInformation.FounderInvolvementInOperations[i+1];
-        this.FoundersInformation.FounderSalaryBeforeFunding[i] = this.FoundersInformation.FounderSalaryBeforeFunding[i+1];
-        this.FoundersInformation.FounderYearsOfExperience[i] = this.FoundersInformation.FounderYearsOfExperience[i+1];
-        this.FoundersInformation.FounderReplicability[i] = this.FoundersInformation.FounderReplicability[i+1];
-        this.FoundersInformation.FounderIsCEO[i] = this.FoundersInformation.FounderIsCEO[i+1];
-        this.FoundersInformation.FounderIsIdeaExecution[i] = this.FoundersInformation.FounderIsIdeaExecution[i+1];
-        this.FoundersInformation.FounderInitialCapitalContribution[i] = this.FoundersInformation.FounderInitialCapitalContribution[i+1];
-      }
-    },
-    reInitFounder(index){
-      this.FoundersInformation.FounderInvolvementBeforeFunding[index] = 0;
-      this.FoundersInformation.FounderInvolvementInProductDevelopment[index] = 0;
-      this.FoundersInformation.FounderInvolvementInSalesAndMarketing[index] = 0;
-      this.FoundersInformation.FounderInvolvementInOperations[index] = 0;
-      this.FoundersInformation.FounderSalaryBeforeFunding[index] = 0;
-      this.FoundersInformation.FounderYearsOfExperience[index] = 0;
-      this.FoundersInformation.FounderReplicability[index] = 1;
-      this.FoundersInformation.FounderIsCEO[index] = 0;
-      this.FoundersInformation.FounderIsIdeaExecution[index] = 0;
-      this.FoundersInformation.FounderInitialCapitalContribution[index] = 1;
-    },
+    //2 add founder methods, one for the inital list and the other to add additional founders and init their values
     addFounder() {
-      this.founders.push({ name: "" });
-      let founderIndex = this.founders.length - 1;
+      this.store.founderDetails.push({ name: "" });
+      let founderIndex = this.store.founderDetails.length - 1;
       //init all values
-      this.reInitFounder(founderIndex);
-    },
-    updateChartData(){
-      this.chartData.datasets[0].data = [...this.equitySplit.map((value)=>value*100)];
+      this.store.reInitFounder(founderIndex);
     },
     sendEmailJS(e){
       this.sendEmail = true;
@@ -576,11 +527,10 @@ export default {
   computed: {
     emailMessage(){
       //detailed report for all founders, compiled into an email message
-
       let message = `Equity Split Report: <br><hr>`;
-      for (let i = 0; i < this.founderDetails.length; i++) {
+      for (let i = 0; i < this.store.founderDetails.length; i++) {
        
-        message += `<b>${this.founderDetails[i].name}</b>: <b>${this.equitySplit[i] * 100}%</b><br>`;
+        message += `<b>${this.store.founderDetails[i].name}</b>: <b>${this.store.equitySplit[i] * 100}%</b><br>`;
 
         if(this.FoundersInformation.FounderInvolvementBeforeFunding[i] == 0)
           message += `Founder Involvement Before Funding: None<br>`;
@@ -591,7 +541,7 @@ export default {
         else if(this.FoundersInformation.FounderInvolvementBeforeFunding[i] == 1)
           message += `Founder Involvement Before Funding: Exclusive<br>`;
         else
-          message += `Founder Involvement Before Funding: ${ this.FoundersInformation.FounderInvolvementBeforeFunding[i] }<br>`;
+          message += `Founder Involvement Before Funding: ${this.FoundersInformation.FounderInvolvementBeforeFunding[i] }<br>`;
 
         message += `Founder Involvement In Product Development: ${this.FoundersInformation.FounderInvolvementInProductDevelopment[i] * 100}% <br>`;
         message += `Founder Involvement In Sales And Marketing: ${this.FoundersInformation.FounderInvolvementInSalesAndMarketing[i] * 100}% <br>`;
@@ -628,124 +578,19 @@ export default {
       return message;
     },
     chartData(){
-         let PieData = {labels: [...this.founderDetails.map((founder) => founder.name)],
+         let PieData = {labels: [...this.store.founderDetails.map((founder) => founder.name)],
             datasets: [
               {
                 label: "% of Equity",
                 backgroundColor:[...this.colors],
-                data:[...this.equitySplit.map((value)=>value*100)],
+                data:[...this.store.equitySplit.map((value)=>value*100)],
                 borderWidth: 1,
               },
             ],
          }
         return PieData; 
     },
-    equitySplit() {
-      //for each founder, calculate the equity split, give/take points based on the answers
-      let equitySplits = [];
-      let totalInvestment =
-        this.FoundersInformation.FounderInitialCapitalContribution.reduce(
-          (a, b) => parseInt(a) + parseInt(b),
-          0
-        );
-      for (let index = 0; index < this.founderDetails.length; index++) {
-        let individualEquity = 0;
-
-        let founderInvolvement = parseFloat(
-          this.FoundersInformation.FounderInvolvementBeforeFunding[index]
-        );
-        let founderIPD =
-          parseInt(
-            this.FoundersInformation.FounderInvolvementInProductDevelopment[
-              index
-            ]
-          ) / 100;
-        let founderISM =
-          parseInt(
-            this.FoundersInformation.FounderInvolvementInSalesAndMarketing[
-              index
-            ]
-          ) / 100;
-        let founderIO =
-          parseInt(
-            this.FoundersInformation.FounderInvolvementInOperations[index]
-          ) / 100;
-        let founderSalary =
-          this.FoundersInformation.FounderSalaryBeforeFunding[index];
-
-        if (founderSalary > 0) {
-          if (founderSalary > 4000) {
-            founderSalary = -4;
-          } else {
-            let founderSalaryMult = founderSalary / 1000;
-            founderSalary = founderSalaryMult * -0.5;
-          }
-        } else {
-          founderSalary = 4;
-        }
-
-        let founderYOE =
-          this.FoundersInformation.FounderYearsOfExperience[index] / 10;
-
-        if (founderYOE > 1.0) {
-          founderYOE = 1.0;
-        } else if (founderYOE < 0.0) {
-          founderYOE = 0.0;
-        }
-
-        let founderReplicability = parseInt(
-          this.FoundersInformation.FounderReplicability[index]
-        );
-
-        if (founderReplicability == 0) {
-          founderReplicability = 0.0;
-        } else {
-          founderReplicability /= 5;
-        }
-
-        let founderCEO = 0;
-
-        if (this.FoundersInformation.FounderIsCEO[index]) {
-          founderCEO = 1;
-        } else {
-          founderCEO = 0;
-        }
-
-        let founderIE = 0;
-
-        if (this.FoundersInformation.FounderIsIdeaExecution[index]) {
-          founderIE = 1;
-        } else {
-          founderIE = 0;
-        }
-
-        let founderICC =
-          this.FoundersInformation.FounderInitialCapitalContribution[index] /
-          totalInvestment;
-
-        // adding up the points, multiplying by the weightage prev:(EXCLUDED : founderCEO, founderIE, founderSalary)
-        individualEquity +=
-          founderInvolvement * 5 +
-          founderIPD * 3 +
-          founderISM * 3 +
-          founderIO * 3 +
-          founderYOE * 4 +
-          founderReplicability * 5 +
-          founderICC * 4 +
-          founderCEO * 2 +
-          founderIE * 1 +
-          founderSalary * 4;
-
-        equitySplits.push(individualEquity);
-      }
-
-      //normalize the equity splits
-      let totalEquity = equitySplits.reduce((a, b) => a + b, 0);
-      for (let index = 0; index < equitySplits.length; index++) {
-        equitySplits[index] = equitySplits[index] / totalEquity;
-      }
-      return equitySplits;
-    }
+   
   }
 };
 </script>
